@@ -1,0 +1,1313 @@
+# depslib dependency file v1.0
+1530917309 source:/home/god/Desktop/uncertent/uWebSockets/src/Epoll.cpp
+	"Backend.h"
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/Backend.h
+	"Asio.h"
+	"Libuv.h"
+	"Epoll.h"
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/Asio.h
+	<boost/asio.hpp>
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/Libuv.h
+	<uv.h>
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/Epoll.h
+	<sys/epoll.h>
+	<sys/eventfd.h>
+	<unistd.h>
+	<fcntl.h>
+	<chrono>
+	<algorithm>
+	<vector>
+	<mutex>
+
+1530917309 source:/home/god/Desktop/uncertent/uWebSockets/src/Extensions.cpp
+	"Extensions.h"
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/Extensions.h
+	<string>
+
+1530917309 source:/home/god/Desktop/uncertent/uWebSockets/src/Group.cpp
+	"Group.h"
+	"Hub.h"
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/Group.h
+	"WebSocket.h"
+	"HTTPSocket.h"
+	"Extensions.h"
+	<functional>
+	<stack>
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/WebSocket.h
+	"WebSocketProtocol.h"
+	"Socket.h"
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/WebSocketProtocol.h
+	"Networking.h"
+	<cstring>
+	<cstdlib>
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/Networking.h
+	<openssl/opensslv.h>
+	<endian.h>
+	<libkern/OSByteOrder.h>
+	<WinSock2.h>
+	<Ws2tcpip.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<netinet/tcp.h>
+	<netdb.h>
+	<unistd.h>
+	<arpa/inet.h>
+	<cstring>
+	"Backend.h"
+	<openssl/ssl.h>
+	<csignal>
+	<vector>
+	<string>
+	<mutex>
+	<algorithm>
+	<memory>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/opensslv.h
+
+1532282934 /home/god/Desktop/uncertent/openssl/include/openssl/ssl.h
+	<openssl/e_os2.h>
+	<openssl/opensslconf.h>
+	<openssl/comp.h>
+	<openssl/bio.h>
+	<openssl/x509.h>
+	<openssl/crypto.h>
+	<openssl/lhash.h>
+	<openssl/buffer.h>
+	<openssl/pem.h>
+	<openssl/hmac.h>
+	<openssl/async.h>
+	<openssl/safestack.h>
+	<openssl/symhacks.h>
+	<openssl/ct.h>
+	<openssl/ssl2.h>
+	<openssl/ssl3.h>
+	<openssl/tls1.h>
+	<openssl/dtls1.h>
+	<openssl/srtp.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/e_os2.h
+	<openssl/opensslconf.h>
+	<inttypes.h>
+	<stdint.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/opensslconf.h
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/comp.h
+	<openssl/opensslconf.h>
+	<openssl/crypto.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/crypto.h
+	<stdlib.h>
+	<time.h>
+	<openssl/e_os2.h>
+	<stdio.h>
+	<openssl/stack.h>
+	<openssl/safestack.h>
+	<openssl/opensslv.h>
+	<openssl/ossl_typ.h>
+	<openssl/opensslconf.h>
+	<openssl/ebcdic.h>
+	<openssl/symhacks.h>
+	<openssl/opensslv.h>
+	<pthread.h>
+
+1532282934 /home/god/Desktop/uncertent/openssl/include/openssl/stack.h
+
+1532282934 /home/god/Desktop/uncertent/openssl/include/openssl/safestack.h
+	<openssl/stack.h>
+	<openssl/e_os2.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/ossl_typ.h
+	<limits.h>
+	<openssl/e_os2.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/ebcdic.h
+	<stdlib.h>
+
+1532282934 /home/god/Desktop/uncertent/openssl/include/openssl/symhacks.h
+	<openssl/e_os2.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/bio.h
+	<openssl/e_os2.h>
+	<stdio.h>
+	<stdarg.h>
+	<openssl/crypto.h>
+	<openssl/e_os2.h>
+
+1532282934 /home/god/Desktop/uncertent/openssl/include/openssl/x509.h
+	<openssl/e_os2.h>
+	<openssl/ossl_typ.h>
+	<openssl/symhacks.h>
+	<openssl/buffer.h>
+	<openssl/evp.h>
+	<openssl/bio.h>
+	<openssl/stack.h>
+	<openssl/asn1.h>
+	<openssl/safestack.h>
+	<openssl/ec.h>
+	<openssl/rsa.h>
+	<openssl/dsa.h>
+	<openssl/dh.h>
+	<openssl/sha.h>
+	<openssl/x509_vfy.h>
+	<openssl/pkcs7.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/buffer.h
+	<openssl/ossl_typ.h>
+	<openssl/crypto.h>
+	<stddef.h>
+	<sys/types.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/evp.h
+	<openssl/opensslconf.h>
+	<openssl/ossl_typ.h>
+	<openssl/symhacks.h>
+	<openssl/bio.h>
+	<openssl/objects.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/objects.h
+	<openssl/obj_mac.h>
+	<openssl/bio.h>
+	<openssl/asn1.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/obj_mac.h
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/asn1.h
+	<time.h>
+	<openssl/e_os2.h>
+	<openssl/opensslconf.h>
+	<openssl/bio.h>
+	<openssl/stack.h>
+	<openssl/safestack.h>
+	<openssl/symhacks.h>
+	<openssl/ossl_typ.h>
+	<openssl/bn.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/bn.h
+	<openssl/e_os2.h>
+	<stdio.h>
+	<openssl/opensslconf.h>
+	<openssl/ossl_typ.h>
+	<openssl/crypto.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/ec.h
+	<openssl/opensslconf.h>
+	<openssl/asn1.h>
+	<openssl/symhacks.h>
+	<openssl/bn.h>
+
+1532282934 /home/god/Desktop/uncertent/openssl/include/openssl/rsa.h
+	<openssl/opensslconf.h>
+	<openssl/asn1.h>
+	<openssl/bio.h>
+	<openssl/crypto.h>
+	<openssl/ossl_typ.h>
+	<openssl/bn.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/dsa.h
+	<openssl/opensslconf.h>
+	<openssl/e_os2.h>
+	<openssl/bio.h>
+	<openssl/crypto.h>
+	<openssl/ossl_typ.h>
+	<openssl/opensslconf.h>
+	<openssl/bn.h>
+	<openssl/dh.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/dh.h
+	<openssl/opensslconf.h>
+	<openssl/e_os2.h>
+	<openssl/bio.h>
+	<openssl/asn1.h>
+	<openssl/ossl_typ.h>
+	<openssl/bn.h>
+
+1532282934 /home/god/Desktop/uncertent/openssl/include/openssl/sha.h
+	<openssl/e_os2.h>
+	<stddef.h>
+
+1532282934 /home/god/Desktop/uncertent/openssl/include/openssl/x509_vfy.h
+	<openssl/x509.h>
+	<openssl/opensslconf.h>
+	<openssl/lhash.h>
+	<openssl/bio.h>
+	<openssl/crypto.h>
+	<openssl/symhacks.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/lhash.h
+	<openssl/e_os2.h>
+	<openssl/bio.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/pkcs7.h
+	<openssl/asn1.h>
+	<openssl/bio.h>
+	<openssl/e_os2.h>
+	<openssl/symhacks.h>
+	<openssl/ossl_typ.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/pem.h
+	<openssl/e_os2.h>
+	<openssl/bio.h>
+	<openssl/stack.h>
+	<openssl/evp.h>
+	<openssl/x509.h>
+	<openssl/pem2.h>
+	<openssl/symhacks.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/pem2.h
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/hmac.h
+	<openssl/opensslconf.h>
+	<openssl/evp.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/async.h
+	<stdlib.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/ct.h
+	<openssl/opensslconf.h>
+	<openssl/ossl_typ.h>
+	<openssl/safestack.h>
+	<openssl/x509.h>
+
+1532282934 /home/god/Desktop/uncertent/openssl/include/openssl/ssl2.h
+
+1532282934 /home/god/Desktop/uncertent/openssl/include/openssl/ssl3.h
+	<openssl/comp.h>
+	<openssl/buffer.h>
+	<openssl/evp.h>
+	<openssl/ssl.h>
+
+1532282934 /home/god/Desktop/uncertent/openssl/include/openssl/tls1.h
+	<openssl/buffer.h>
+	<openssl/x509.h>
+
+1532282933 /home/god/Desktop/uncertent/openssl/include/openssl/dtls1.h
+
+1532282934 /home/god/Desktop/uncertent/openssl/include/openssl/srtp.h
+	<openssl/ssl.h>
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/Socket.h
+	"Networking.h"
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/HTTPSocket.h
+	"Socket.h"
+	<string>
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/Hub.h
+	"Group.h"
+	"Node.h"
+	<string>
+	<zlib.h>
+	<mutex>
+	<map>
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/Node.h
+	"Socket.h"
+	<vector>
+	<mutex>
+
+1532276930 /home/god/Desktop/uncertent/zlibout/include/zlib.h
+	"zconf.h"
+
+1532276930 /home/god/Desktop/uncertent/zlibout/include/zconf.h
+	<stddef.h>
+	<windows.h>
+	<limits.h>
+	<sys/types.h>
+	<stdarg.h>
+	<stddef.h>
+	<unistd.h>
+	<unixio.h>
+
+1530917309 source:/home/god/Desktop/uncertent/uWebSockets/src/HTTPSocket.cpp
+	"HTTPSocket.h"
+	"Group.h"
+	"Extensions.h"
+	<cstdio>
+
+1530917309 source:/home/god/Desktop/uncertent/uWebSockets/src/Hub.cpp
+	"Hub.h"
+	"HTTPSocket.h"
+	<openssl/sha.h>
+	<string>
+
+1530917309 source:/home/god/Desktop/uncertent/uWebSockets/src/Networking.cpp
+	"Networking.h"
+
+1530917309 source:/home/god/Desktop/uncertent/uWebSockets/src/Node.cpp
+	"Node.h"
+
+1530917309 source:/home/god/Desktop/uncertent/uWebSockets/src/Room.cpp
+	"Room.h"
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/Room.h
+	"WebSocket.h"
+	<vector>
+
+1530917309 source:/home/god/Desktop/uncertent/uWebSockets/src/Socket.cpp
+	"Socket.h"
+
+1530917309 source:/home/god/Desktop/uncertent/uWebSockets/src/WebSocket.cpp
+	"WebSocket.h"
+	"Group.h"
+	"Hub.h"
+
+1532591889 source:/home/god/Desktop/uncertent/main.cpp
+	"uWS.h"
+	<iostream>
+	<chrono>
+	<cmath>
+	<thread>
+	<fstream>
+	<vector>
+	<set>
+	<unordered_set>
+	<unordered_map>
+	<map>
+	<atomic>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+	"exchange/huobipro.h"
+	"Room.h"
+
+1530917309 /home/god/Desktop/uncertent/uWebSockets/src/uWS.h
+	"Hub.h"
+
+1532187743 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/document.h
+	"reader.h"
+	"internal/meta.h"
+	"internal/strfunc.h"
+	"memorystream.h"
+	"encodedstream.h"
+	<new>
+	<limits>
+	<iterator>
+	<utility>
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/reader.h
+	"allocators.h"
+	"stream.h"
+	"encodedstream.h"
+	"internal/meta.h"
+	"internal/stack.h"
+	"internal/strtod.h"
+	<limits>
+	<intrin.h>
+	<nmmintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+	<stdexcept>
+	"rapidjson/error/error.h"
+	"rapidjson/reader.h"
+	"error/error.h"
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/allocators.h
+	"rapidjson.h"
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/rapidjson.h
+	<cstdlib>
+	<cstring>
+	"rapidjson/..."
+	<string>
+	"msinttypes/stdint.h"
+	"msinttypes/inttypes.h"
+	<stdint.h>
+	<inttypes.h>
+	<endian.h>
+	"rapidjson/..."
+	<cassert>
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/msinttypes/stdint.h
+	<stdint.h>
+	<limits.h>
+	<wchar.h>
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/msinttypes/inttypes.h
+	"stdint.h"
+	<inttypes.h>
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/stream.h
+	"rapidjson.h"
+	"encodings.h"
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/encodings.h
+	"rapidjson.h"
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/encodedstream.h
+	"stream.h"
+	"memorystream.h"
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/memorystream.h
+	"stream.h"
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/internal/meta.h
+	"../rapidjson.h"
+	<type_traits>
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/internal/stack.h
+	"../allocators.h"
+	"swap.h"
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/internal/swap.h
+	"../rapidjson.h"
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/internal/strtod.h
+	"ieee754.h"
+	"biginteger.h"
+	"diyfp.h"
+	"pow10.h"
+	<climits>
+	<limits>
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/internal/ieee754.h
+	"../rapidjson.h"
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/internal/biginteger.h
+	"../rapidjson.h"
+	<intrin.h>
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/internal/diyfp.h
+	"../rapidjson.h"
+	<limits>
+	<intrin.h>
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/internal/pow10.h
+	"../rapidjson.h"
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/error/error.h
+	"../rapidjson.h"
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/internal/strfunc.h
+	"../stream.h"
+	<cwchar>
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/writer.h
+	"stream.h"
+	"internal/meta.h"
+	"internal/stack.h"
+	"internal/strfunc.h"
+	"internal/dtoa.h"
+	"internal/itoa.h"
+	"stringbuffer.h"
+	<new>
+	<intrin.h>
+	<nmmintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/internal/dtoa.h
+	"itoa.h"
+	"diyfp.h"
+	"ieee754.h"
+
+1532187743 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/internal/itoa.h
+	"../rapidjson.h"
+
+1531376845 /home/god/Desktop/uncertent/rapidjson/include/rapidjson/stringbuffer.h
+	"stream.h"
+	"internal/stack.h"
+	<utility>
+	"internal/stack.h"
+
+1532452894 /home/god/Desktop/uncertent/main/test.h
+	<stdio.h>
+	<curl/curl.h>
+	<string>
+	<string.h>
+	<iostream>
+	<stdlib.h>
+	<unistd.h>
+	<sstream>
+	<iomanip>
+	<map>
+	<time.h>
+
+1532283466 /home/god/Desktop/uncertent/curlsslout/include/curl/curl.h
+	"curlver.h"
+	"system.h"
+	<stdio.h>
+	<limits.h>
+	<osreldate.h>
+	<sys/types.h>
+	<time.h>
+	<winsock2.h>
+	<ws2tcpip.h>
+	<sys/select.h>
+	<sys/socket.h>
+	<sys/time.h>
+	<support/SupportDefs.h>
+	"easy.h"
+	"multi.h"
+	"typecheck-gcc.h"
+
+1532283466 /home/god/Desktop/uncertent/curlsslout/include/curl/curlver.h
+
+1532283466 /home/god/Desktop/uncertent/curlsslout/include/curl/system.h
+	<winsock2.h>
+	<windows.h>
+	<ws2tcpip.h>
+	<sys/types.h>
+	<sys/socket.h>
+	<sys/poll.h>
+
+1532283466 /home/god/Desktop/uncertent/curlsslout/include/curl/easy.h
+
+1532283466 /home/god/Desktop/uncertent/curlsslout/include/curl/multi.h
+	"curl.h"
+
+1532283466 /home/god/Desktop/uncertent/curlsslout/include/curl/typecheck-gcc.h
+
+1532428910 source:/home/god/Desktop/uncertent/exchange/exchange.cpp
+	"exchange.h"
+
+1532428823 /home/god/Desktop/uncertent/exchange/exchange.h
+	<string>
+
+1532650847 source:/home/god/Desktop/uncertent/exchange/huobipro.cpp
+	"huobipro.h"
+	"../utils/timetool.h"
+	"../utils/httprequest.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+
+1532600176 /home/god/Desktop/uncertent/exchange/huobipro.h
+	<string>
+	"exchange.h"
+
+1532429141 source:/home/god/Desktop/uncertent/exchange/binance.cpp
+	"binance.h"
+
+1532544346 /home/god/Desktop/uncertent/exchange/binance.h
+	"exchange.h"
+
+1532429059 source:/home/god/Desktop/uncertent/exchange/okex.cpp
+	"okex.h"
+
+1532544402 /home/god/Desktop/uncertent/exchange/okex.h
+	"exchange.h"
+
+1532714807 /home/god/Desktop/uncertent/utils/httprequest.h
+	<curl/curl.h>
+	<string>
+
+1532463937 /home/god/Desktop/uncertent/utils/timetool.h
+	"time.h"
+	<string>
+	<iostream>
+
+1532649737 /home/god/Desktop/uncertent/utils/codec.h
+	<string>
+	<vector>
+	<cstring>
+
+1532646697 /home/god/Desktop/uncertent/utils/misc.h
+	<string>
+	<map>
+	"openssl/sha.h"
+	"openssl/hmac.h"
+
+1534777424 source:/root/Desktop/uncertent/exchange/binance.cpp
+	"binance.h"
+	<string>
+	<map>
+	<iostream>
+	<thread>
+	"../utils/misc.h"
+	"../utils/codec.h"
+	"../utils/httprequest.h"
+	"common.h"
+	"uWS.h"
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+
+1534547896 /root/Desktop/uncertent/exchange/binance.h
+	"exchange.h"
+	<string>
+	<vector>
+	<map>
+	<thread>
+	"uWS.h"
+	"common.h"
+	"rapidjson/document.h"
+
+1533523241 /root/Desktop/uncertent/exchange/exchange.h
+	<string>
+
+1533066237 source:/root/Desktop/uncertent/exchange/exchange.cpp
+	"exchange.h"
+
+1534550657 source:/root/Desktop/uncertent/exchange/huobipro.cpp
+	"huobipro.h"
+	"../utils/httprequest.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+	<iostream>
+
+1533663857 /root/Desktop/uncertent/exchange/huobipro.h
+	<string>
+	<vector>
+	<map>
+	"exchange.h"
+
+1532463937 /root/Desktop/uncertent/utils/timetool.h
+	"time.h"
+	<string>
+	<iostream>
+
+1533524038 /root/Desktop/uncertent/utils/httprequest.h
+	<vector>
+
+1532283466 /root/Desktop/uncertent/curlsslout/include/curl/curl.h
+	"curlver.h"
+	"system.h"
+	<stdio.h>
+	<limits.h>
+	<osreldate.h>
+	<sys/types.h>
+	<time.h>
+	<winsock2.h>
+	<ws2tcpip.h>
+	<sys/select.h>
+	<sys/socket.h>
+	<sys/time.h>
+	<support/SupportDefs.h>
+	"easy.h"
+	"multi.h"
+	"typecheck-gcc.h"
+
+1532283466 /root/Desktop/uncertent/curlsslout/include/curl/curlver.h
+
+1532283466 /root/Desktop/uncertent/curlsslout/include/curl/system.h
+	<winsock2.h>
+	<windows.h>
+	<ws2tcpip.h>
+	<sys/types.h>
+	<sys/socket.h>
+	<sys/poll.h>
+
+1532283466 /root/Desktop/uncertent/curlsslout/include/curl/easy.h
+
+1532283466 /root/Desktop/uncertent/curlsslout/include/curl/multi.h
+	"curl.h"
+
+1532283466 /root/Desktop/uncertent/curlsslout/include/curl/typecheck-gcc.h
+
+1533062193 /root/Desktop/uncertent/utils/codec.h
+
+1534805465 /root/Desktop/uncertent/utils/misc.h
+	<string>
+	<map>
+
+1532282934 /root/Desktop/uncertent/openssl/include/openssl/sha.h
+	<openssl/e_os2.h>
+	<stddef.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/e_os2.h
+	<openssl/opensslconf.h>
+	<inttypes.h>
+	<stdint.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/opensslconf.h
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/hmac.h
+	<openssl/opensslconf.h>
+	<openssl/evp.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/evp.h
+	<openssl/opensslconf.h>
+	<openssl/ossl_typ.h>
+	<openssl/symhacks.h>
+	<openssl/bio.h>
+	<openssl/objects.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/ossl_typ.h
+	<limits.h>
+	<openssl/e_os2.h>
+
+1532282934 /root/Desktop/uncertent/openssl/include/openssl/symhacks.h
+	<openssl/e_os2.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/bio.h
+	<openssl/e_os2.h>
+	<stdio.h>
+	<stdarg.h>
+	<openssl/crypto.h>
+	<openssl/e_os2.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/crypto.h
+	<stdlib.h>
+	<time.h>
+	<openssl/e_os2.h>
+	<stdio.h>
+	<openssl/stack.h>
+	<openssl/safestack.h>
+	<openssl/opensslv.h>
+	<openssl/ossl_typ.h>
+	<openssl/opensslconf.h>
+	<openssl/ebcdic.h>
+	<openssl/symhacks.h>
+	<openssl/opensslv.h>
+	<pthread.h>
+
+1532282934 /root/Desktop/uncertent/openssl/include/openssl/stack.h
+
+1532282934 /root/Desktop/uncertent/openssl/include/openssl/safestack.h
+	<openssl/stack.h>
+	<openssl/e_os2.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/opensslv.h
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/ebcdic.h
+	<stdlib.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/objects.h
+	<openssl/obj_mac.h>
+	<openssl/bio.h>
+	<openssl/asn1.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/obj_mac.h
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/asn1.h
+	<time.h>
+	<openssl/e_os2.h>
+	<openssl/opensslconf.h>
+	<openssl/bio.h>
+	<openssl/stack.h>
+	<openssl/safestack.h>
+	<openssl/symhacks.h>
+	<openssl/ossl_typ.h>
+	<openssl/bn.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/bn.h
+	<openssl/e_os2.h>
+	<stdio.h>
+	<openssl/opensslconf.h>
+	<openssl/ossl_typ.h>
+	<openssl/crypto.h>
+
+1534776643 source:/root/Desktop/uncertent/exchange/okex.cpp
+	"okex.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+	"../utils/httprequest.h"
+	<string>
+	<thread>
+	<iostream>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+
+1534616304 /root/Desktop/uncertent/exchange/okex.h
+	"uWS.h"
+	"exchange.h"
+	<vector>
+	<map>
+	"common.h"
+	"rapidjson/document.h"
+
+1534804444 source:/root/Desktop/uncertent/main.cpp
+	"uWS.h"
+	<iostream>
+	<chrono>
+	<cmath>
+	<thread>
+	<fstream>
+	<vector>
+	<set>
+	<unordered_set>
+	<unordered_map>
+	<map>
+	<vector>
+	<atomic>
+	<iomanip>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+	"exchange/huobipro.h"
+	"exchange/binance.h"
+	"exchange/okex.h"
+	"utils/httprequest.h"
+	"utils/misc.h"
+	"utils/trade.h"
+	"Room.h"
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/uWS.h
+	"Hub.h"
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/Hub.h
+	"Group.h"
+	"Node.h"
+	<string>
+	<zlib.h>
+	<mutex>
+	<map>
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/Group.h
+	"WebSocket.h"
+	"HTTPSocket.h"
+	"Extensions.h"
+	<functional>
+	<stack>
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/WebSocket.h
+	"WebSocketProtocol.h"
+	"Socket.h"
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/WebSocketProtocol.h
+	"Networking.h"
+	<cstring>
+	<cstdlib>
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/Networking.h
+	<openssl/opensslv.h>
+	<endian.h>
+	<libkern/OSByteOrder.h>
+	<WinSock2.h>
+	<Ws2tcpip.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<netinet/tcp.h>
+	<netdb.h>
+	<unistd.h>
+	<arpa/inet.h>
+	<cstring>
+	"Backend.h"
+	<openssl/ssl.h>
+	<csignal>
+	<vector>
+	<string>
+	<mutex>
+	<algorithm>
+	<memory>
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/Backend.h
+	"Asio.h"
+	"Libuv.h"
+	"Epoll.h"
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/Asio.h
+	<boost/asio.hpp>
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/Libuv.h
+	<uv.h>
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/Epoll.h
+	<sys/epoll.h>
+	<sys/eventfd.h>
+	<unistd.h>
+	<fcntl.h>
+	<chrono>
+	<algorithm>
+	<vector>
+	<mutex>
+
+1532282934 /root/Desktop/uncertent/openssl/include/openssl/ssl.h
+	<openssl/e_os2.h>
+	<openssl/opensslconf.h>
+	<openssl/comp.h>
+	<openssl/bio.h>
+	<openssl/x509.h>
+	<openssl/crypto.h>
+	<openssl/lhash.h>
+	<openssl/buffer.h>
+	<openssl/pem.h>
+	<openssl/hmac.h>
+	<openssl/async.h>
+	<openssl/safestack.h>
+	<openssl/symhacks.h>
+	<openssl/ct.h>
+	<openssl/ssl2.h>
+	<openssl/ssl3.h>
+	<openssl/tls1.h>
+	<openssl/dtls1.h>
+	<openssl/srtp.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/comp.h
+	<openssl/opensslconf.h>
+	<openssl/crypto.h>
+
+1532282934 /root/Desktop/uncertent/openssl/include/openssl/x509.h
+	<openssl/e_os2.h>
+	<openssl/ossl_typ.h>
+	<openssl/symhacks.h>
+	<openssl/buffer.h>
+	<openssl/evp.h>
+	<openssl/bio.h>
+	<openssl/stack.h>
+	<openssl/asn1.h>
+	<openssl/safestack.h>
+	<openssl/ec.h>
+	<openssl/rsa.h>
+	<openssl/dsa.h>
+	<openssl/dh.h>
+	<openssl/sha.h>
+	<openssl/x509_vfy.h>
+	<openssl/pkcs7.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/buffer.h
+	<openssl/ossl_typ.h>
+	<openssl/crypto.h>
+	<stddef.h>
+	<sys/types.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/ec.h
+	<openssl/opensslconf.h>
+	<openssl/asn1.h>
+	<openssl/symhacks.h>
+	<openssl/bn.h>
+
+1532282934 /root/Desktop/uncertent/openssl/include/openssl/rsa.h
+	<openssl/opensslconf.h>
+	<openssl/asn1.h>
+	<openssl/bio.h>
+	<openssl/crypto.h>
+	<openssl/ossl_typ.h>
+	<openssl/bn.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/dsa.h
+	<openssl/opensslconf.h>
+	<openssl/e_os2.h>
+	<openssl/bio.h>
+	<openssl/crypto.h>
+	<openssl/ossl_typ.h>
+	<openssl/opensslconf.h>
+	<openssl/bn.h>
+	<openssl/dh.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/dh.h
+	<openssl/opensslconf.h>
+	<openssl/e_os2.h>
+	<openssl/bio.h>
+	<openssl/asn1.h>
+	<openssl/ossl_typ.h>
+	<openssl/bn.h>
+
+1532282934 /root/Desktop/uncertent/openssl/include/openssl/x509_vfy.h
+	<openssl/x509.h>
+	<openssl/opensslconf.h>
+	<openssl/lhash.h>
+	<openssl/bio.h>
+	<openssl/crypto.h>
+	<openssl/symhacks.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/lhash.h
+	<openssl/e_os2.h>
+	<openssl/bio.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/pkcs7.h
+	<openssl/asn1.h>
+	<openssl/bio.h>
+	<openssl/e_os2.h>
+	<openssl/symhacks.h>
+	<openssl/ossl_typ.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/pem.h
+	<openssl/e_os2.h>
+	<openssl/bio.h>
+	<openssl/stack.h>
+	<openssl/evp.h>
+	<openssl/x509.h>
+	<openssl/pem2.h>
+	<openssl/symhacks.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/pem2.h
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/async.h
+	<stdlib.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/ct.h
+	<openssl/opensslconf.h>
+	<openssl/ossl_typ.h>
+	<openssl/safestack.h>
+	<openssl/x509.h>
+
+1532282934 /root/Desktop/uncertent/openssl/include/openssl/ssl2.h
+
+1532282934 /root/Desktop/uncertent/openssl/include/openssl/ssl3.h
+	<openssl/comp.h>
+	<openssl/buffer.h>
+	<openssl/evp.h>
+	<openssl/ssl.h>
+
+1532282934 /root/Desktop/uncertent/openssl/include/openssl/tls1.h
+	<openssl/buffer.h>
+	<openssl/x509.h>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/dtls1.h
+
+1532282934 /root/Desktop/uncertent/openssl/include/openssl/srtp.h
+	<openssl/ssl.h>
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/Socket.h
+	"Networking.h"
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/HTTPSocket.h
+	"Socket.h"
+	<string>
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/Extensions.h
+	<string>
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/Node.h
+	"Socket.h"
+	<vector>
+	<mutex>
+
+1532276930 /root/Desktop/uncertent/zlibout/include/zlib.h
+	"zconf.h"
+
+1532276930 /root/Desktop/uncertent/zlibout/include/zconf.h
+	<stddef.h>
+	<windows.h>
+	<limits.h>
+	<sys/types.h>
+	<stdarg.h>
+	<stddef.h>
+	<unistd.h>
+	<unixio.h>
+
+1532187743 /root/Desktop/uncertent/rapidjson/include/rapidjson/document.h
+	"reader.h"
+	"internal/meta.h"
+	"internal/strfunc.h"
+	"memorystream.h"
+	"encodedstream.h"
+	<new>
+	<limits>
+	<iterator>
+	<utility>
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/reader.h
+	"allocators.h"
+	"stream.h"
+	"encodedstream.h"
+	"internal/meta.h"
+	"internal/stack.h"
+	"internal/strtod.h"
+	<limits>
+	<intrin.h>
+	<nmmintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+	<stdexcept>
+	"rapidjson/error/error.h"
+	"rapidjson/reader.h"
+	"error/error.h"
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/allocators.h
+	"rapidjson.h"
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/rapidjson.h
+	<cstdlib>
+	<cstring>
+	"rapidjson/..."
+	<string>
+	"msinttypes/stdint.h"
+	"msinttypes/inttypes.h"
+	<stdint.h>
+	<inttypes.h>
+	<endian.h>
+	"rapidjson/..."
+	<cassert>
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/msinttypes/stdint.h
+	<stdint.h>
+	<limits.h>
+	<wchar.h>
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/msinttypes/inttypes.h
+	"stdint.h"
+	<inttypes.h>
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/stream.h
+	"rapidjson.h"
+	"encodings.h"
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/encodings.h
+	"rapidjson.h"
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/encodedstream.h
+	"stream.h"
+	"memorystream.h"
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/memorystream.h
+	"stream.h"
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/internal/meta.h
+	"../rapidjson.h"
+	<type_traits>
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/internal/stack.h
+	"../allocators.h"
+	"swap.h"
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/internal/swap.h
+	"../rapidjson.h"
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/internal/strtod.h
+	"ieee754.h"
+	"biginteger.h"
+	"diyfp.h"
+	"pow10.h"
+	<climits>
+	<limits>
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/internal/ieee754.h
+	"../rapidjson.h"
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/internal/biginteger.h
+	"../rapidjson.h"
+	<intrin.h>
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/internal/diyfp.h
+	"../rapidjson.h"
+	<limits>
+	<intrin.h>
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/internal/pow10.h
+	"../rapidjson.h"
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/error/error.h
+	"../rapidjson.h"
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/internal/strfunc.h
+	"../stream.h"
+	<cwchar>
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/writer.h
+	"stream.h"
+	"internal/meta.h"
+	"internal/stack.h"
+	"internal/strfunc.h"
+	"internal/dtoa.h"
+	"internal/itoa.h"
+	"stringbuffer.h"
+	<new>
+	<intrin.h>
+	<nmmintrin.h>
+	<emmintrin.h>
+	<arm_neon.h>
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/internal/dtoa.h
+	"itoa.h"
+	"diyfp.h"
+	"ieee754.h"
+
+1532187743 /root/Desktop/uncertent/rapidjson/include/rapidjson/internal/itoa.h
+	"../rapidjson.h"
+
+1531376845 /root/Desktop/uncertent/rapidjson/include/rapidjson/stringbuffer.h
+	"stream.h"
+	"internal/stack.h"
+	<utility>
+	"internal/stack.h"
+
+1530917309 /root/Desktop/uncertent/uWebSockets/src/Room.h
+	"WebSocket.h"
+	<vector>
+
+1530917309 source:/root/Desktop/uncertent/uWebSockets/src/Epoll.cpp
+	"Backend.h"
+
+1530917309 source:/root/Desktop/uncertent/uWebSockets/src/Extensions.cpp
+	"Extensions.h"
+
+1530917309 source:/root/Desktop/uncertent/uWebSockets/src/Group.cpp
+	"Group.h"
+	"Hub.h"
+
+1530917309 source:/root/Desktop/uncertent/uWebSockets/src/HTTPSocket.cpp
+	"HTTPSocket.h"
+	"Group.h"
+	"Extensions.h"
+	<cstdio>
+
+1530917309 source:/root/Desktop/uncertent/uWebSockets/src/Hub.cpp
+	"Hub.h"
+	"HTTPSocket.h"
+	<openssl/sha.h>
+	<string>
+
+1530917309 source:/root/Desktop/uncertent/uWebSockets/src/Networking.cpp
+	"Networking.h"
+
+1530917309 source:/root/Desktop/uncertent/uWebSockets/src/Node.cpp
+	"Node.h"
+
+1530917309 source:/root/Desktop/uncertent/uWebSockets/src/Room.cpp
+	"Room.h"
+
+1530917309 source:/root/Desktop/uncertent/uWebSockets/src/Socket.cpp
+	"Socket.h"
+
+1530917309 source:/root/Desktop/uncertent/uWebSockets/src/WebSocket.cpp
+	"WebSocket.h"
+	"Group.h"
+	"Hub.h"
+
+1533060591 source:/root/Desktop/uncertent/utils/codec.cpp
+	<string>
+	<vector>
+	<cstring>
+	"time.h"
+	"openssl/sha.h"
+	"openssl/hmac.h"
+
+1534442388 source:/root/Desktop/uncertent/utils/httprequest.cpp
+	<curl/curl.h>
+	<string>
+	<iostream>
+	<vector>
+
+1534805453 source:/root/Desktop/uncertent/utils/misc.cpp
+	"misc.h"
+	"time.h"
+	"openssl/sha.h"
+	"openssl/hmac.h"
+	"openssl/md5.h"
+	<string>
+	<sstream>
+	<map>
+	"codec.h"
+	<chrono>
+	<iomanip>
+	<algorithm>
+	<cmath>
+
+1532282933 /root/Desktop/uncertent/openssl/include/openssl/md5.h
+	<openssl/opensslconf.h>
+	<openssl/e_os2.h>
+	<stddef.h>
+
+1534547979 /root/Desktop/uncertent/include/common.h
+	<map>
+
+1534805399 source:/root/Desktop/uncertent/utils/trade.cpp
+	"trade.h"
+	<thread>
+	<iostream>
+	"exchange.h"
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+	<iomanip>
+
+1534758766 /root/Desktop/uncertent/utils/trade.h
+	<thread>
+	<iostream>
+	"exchange.h"
+

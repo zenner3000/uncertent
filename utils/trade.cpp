@@ -13,13 +13,13 @@ using namespace std;
 
 void buy(exchange *exg, string symbol,double buyquantity, double buyprice){
     string result = exg->create_limit_buy_order(symbol,buyquantity,buyprice);
-    cout<<result<<endl;
+    cout<<"buy---"<<result<<endl;
     //print the result
 }
 
 void sell(exchange *exg, string symbol,double sellquantity, double sellprice){
     string result = exg->create_limit_sell_order(symbol,sellquantity,sellprice);
-    cout<<result<<endl;
+    cout<<"sell---"<<result<<endl;
     //print the result
 }
 
@@ -45,11 +45,13 @@ double profitcalc(double sellprice, double sellquantity, double sell_feerate, do
 
    if(profit_percoin>0){
         totalprofit =  profit_percoin * tradeqtt;
+
         cout<<fixed<<setprecision(13)<<"sell price--"<<sellprice<<"  quantity--"<<sellquantity<<"   fee--"<<sell_feerate<<"     fee_sell--"<<fee_sellpercoin<<endl;
         cout<<fixed<<setprecision(13)<<"buy price--"<<buyprice<<"  quantity--"<<buyquantity<<"   fee--"<<buy_feerate<<"     fee_buy--"<<fee_buypercoin<<endl;
         cout<<fixed<<setprecision(13)<<"each coin profit--"<<profit_percoin<<endl;
         cout<<fixed<<setprecision(13)<<"totalprofit--"<<totalprofit<<"   tradeqtt--"<<tradeqtt<<endl;
         cout<<"--------"<<endl;
+
         return profit_percoin;
     }
     return 0;

@@ -1,11 +1,17 @@
 #ifndef HUOBI_H
 #define HUOBI_H
 
-#include <string>
+#include "uWS.h"
+#include "exchange.h"
 #include <vector>
 #include <map>
-#include "exchange.h"
+#include <mutex>
+#include <condition_variable>
+#include "common.h"
+#include "rapidjson/document.h"
+
 using namespace std;
+using namespace rapidjson;
 
 /*
 every method
@@ -40,6 +46,22 @@ class huobipro : public exchange
         string get_balance();
         virtual ~huobipro();
         void   get_symbol_streamdata(string symbol, map<double,double>  &bidtable, map<double,double>  &asktable);
+
+        //websocket
+        void   threadfunc_stream();
+        void   start_stream();
+        void   closestream();
+        void   subscribe_depth(string symbol);
+        void   cancel_subscribe_depth(string symbol);
+        void   sendmsg(string msg);
+        void   parse_priceamount_to_map(string symbol,const Value &data);
+
+        map<string,askbidtable> symbol_askbid_table;
+        uWS::WebSocket<uWS::CLIENT> *ws;
+        bool   wsconn_state;
+        mutex mu;
+        condition_variable cv;
+        bool sub_state;
 
         const string restdomain = "https://api.huobi.pro";
         const string wssdomain  = "wss://api.huobi.pro/ws";

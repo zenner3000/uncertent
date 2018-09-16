@@ -14,7 +14,6 @@
 #include "rapidjson/stringbuffer.h"
 
 
-
 using namespace rapidjson;
 using namespace std;
 
@@ -177,7 +176,7 @@ void   binance::threadfunc_stream(){
 
 
     h.onMessage([this](uWS::WebSocket<uWS::CLIENT> *ws, char *message, size_t length, uWS::OpCode opCode) {
-        //std::cout << std::string(message, length) << std::endl;
+        //cout << string(message, length) << endl;
         //ws->send(message, length, opCode);
         //string eosusdt = "eosusdt";
         Document d;
@@ -236,8 +235,8 @@ void binance::start_stream(){
     this->t = thread(&binance::threadfunc_stream,this);
     t.detach();
 
-    std::thread::id tid = t.get_id();
-    cout<<tid<<endl;
+  /*  std::thread::id tid = t.get_id();
+    cout<<tid<<endl;  */
     //t.join();
 }
 
@@ -320,6 +319,10 @@ string   binance::get_snapshot_depth(string symbol,int limit){
 smb, must be lower case
 */
 void binance::parse_snapshot_to_map(string json,string smb){
+
+        this->symbol_askbid_table[smb].ask_table.clear();
+        this->symbol_askbid_table[smb].bid_table.clear();
+
         Document d;
         d.Parse(json.c_str());    //must use the lenght, or parse failed
 

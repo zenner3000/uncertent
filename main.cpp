@@ -21,6 +21,9 @@
 #include "exchange/huobipro.h"
 #include "exchange/binance.h"
 #include "exchange/okex.h"
+#include "exchange/exg58coin.h"
+
+
 #include "utils/httprequest.h"
 #include "utils/misc.h"
 #include "utils/trade.h"
@@ -1202,6 +1205,96 @@ void testRoom() {
 }
 
 
+void testWSS() {
+    uWS::Hub h;
+
+    h.onError([](void *user) {
+        switch ((long) user) {
+        case 1:
+            std::cout << "Client emitted error on invalid URI" << std::endl;
+            break;
+        case 2:
+            std::cout << "Client emitted error on resolve failure" << std::endl;
+            break;
+        case 3:
+            std::cout << "Client emitted error on connection timeout (non-SSL)" << std::endl;
+            break;
+        case 5:
+            std::cout << "Client emitted error on connection timeout (SSL)" << std::endl;
+            break;
+        case 6:
+            std::cout << "Client emitted error on HTTP response without upgrade (non-SSL)" << std::endl;
+            break;
+        case 7:
+            std::cout << "Client emitted error on HTTP response without upgrade (SSL)" << std::endl;
+            break;
+        case 10:
+            std::cout << "Client emitted error on poll error" << std::endl;
+            break;
+        case 11:
+            static int protocolErrorCount = 0;
+            protocolErrorCount++;
+            std::cout << "Client emitted error on invalid protocol" << std::endl;
+            if (protocolErrorCount > 1) {
+                std::cout << "FAILURE:  " << protocolErrorCount << " errors emitted for one connection!" << std::endl;
+                exit(-1);
+            }
+            break;
+        default:
+            std::cout << "FAILURE: " << user << " should not emit error!" << std::endl;
+            exit(-1);
+        }
+    });
+
+
+    h.onConnection([](uWS::WebSocket<uWS::CLIENT> *ws, uWS::HttpRequest req) {
+    //wsc = ws;
+
+        switch ((long) ws->getUserData()) {
+        case 8:
+            std::cout << "Client established a remote connection over non-SSL" << std::endl;
+            //ws->close(1000);
+            break;
+        case 9:
+            cout << "Client established a remote connection over SSL" << endl;
+            //string subststr = "{\'event\':\'addChannel\',\'channel\':\'ok_sub_spot_ada_btc_depth\'}";
+            //ws->send(subststr.c_str());
+            ws->send("{\'event\':\'addChannel\',\'channel\':\'ok_sub_spot_eos_usdt_depth\'}");
+            break;
+        default:
+            std::cout << "FAILURE: " << ws->getUserData() << " should not connect!" << std::endl;
+            exit(-1);
+        }
+    });
+
+    h.onMessage([](uWS::WebSocket<uWS::CLIENT> *ws, char *message, size_t length, uWS::OpCode opCode) {
+        //cout << string(message, length) << endl;
+        string msg = string(message, length);
+        msg.pop_back();
+        msg.erase(0,1);
+        cout<<msg<<endl;
+    });
+
+    h.onDisconnection([](uWS::WebSocket<uWS::CLIENT> *ws, int code, char *message, size_t length) {
+        std::cout << "Client got disconnected with data: " << ws->getUserData() << ", code: " << code << ", message: <" << std::string(message, length) << ">" << std::endl;
+    });
+
+    string wssdomain  = "wss://real.okex.com:10441/websocket";
+    h.connect(wssdomain.c_str(), (void *) 9);
+ /*   h.connect("invalid URI", (void *) 1);
+    h.connect("invalid://validButUnknown.yolo", (void *) 11);
+    h.connect("ws://validButUnknown.yolo", (void *) 2);
+    h.connect("ws://echo.websocket.org", (void *) 3, {}, 10);
+    h.connect("ws://echo.websocket.org", (void *) 8);
+    h.connect("wss://echo.websocket.org", (void *) 5, {}, 10);
+    h.connect("wss://echo.websocket.org", (void *) 9);
+    h.connect("ws://google.com", (void *) 6);
+    h.connect("wss://google.com", (void *) 7);
+    h.connect("ws://127.0.0.1:6000", (void *) 10, {}, 60000); */
+
+    h.run();
+    std::cout << "Falling through testConnections" << std::endl;
+}
 
 int main(int argc, char *argv[])
 {
@@ -1214,6 +1307,11 @@ int main(int argc, char *argv[])
 #endif
     //need thread start
 
+    /*
+    testWSS();
+    thread t(testWSS);
+    t.join(); */
+
 
     /*
     string uri = genuri_byparm();
@@ -1224,10 +1322,17 @@ int main(int argc, char *argv[])
     https_get(url,header);
     */
 
-
-    //huobipro *hb = new huobipro();
+/*
+    huobipro *hb = new huobipro();
     //string hbstr = hb->get_balance();
     //cout <<hbstr<<endl;
+    hb->start_stream();
+    hb->subscribe_depth("market.btcusdt.depth.step5");  */
+
+
+    exg58coin *exg58 =  new exg58coin();
+    exg58->start_stream();
+    exg58->subscribe_depth("btc_usdt");
 
     //string hb    = hb.create_limit_buyorder();
     //string hbb   = hb.create_limit_sellorder();
@@ -1236,12 +1341,12 @@ int main(int argc, char *argv[])
     //string result =  hb->create_limit_sell_order("xrpusdt",1.58,0.6);
     //cout<<result<<endl;
 
-    string bnsym = "adabtc";
-    binance *bn = new binance();
+    //string bnsym = "adabtc";
+    //binance *bn = new binance();
     //string result = bn->create_limit_sell_order("ethusdt",0.17910,480);
     //cout<< result <<endl;
     //bn->start_stream();
-    bn->subscribe_depth(bnsym);
+    //bn->subscribe_depth(bnsym);
     //string result = bn->get_snapshot_depth("EOSUSDT",10);
     //bn->parse_snapshot_to_map(result,"eosusdt");
     //cout<<"sleep 10 sec"<<endl;
@@ -1265,18 +1370,16 @@ int main(int argc, char *argv[])
     //cout<<"subscribe btcusdt"<<endl;
     //bn->subscribe_depth("btcusdt");
 
-    string oksym = "ok_sub_spot_ada_btc_depth";
-    okex                        *ok     = new okex();
-    ok->start_stream();
-    while(!ok->wsconn_state){
-            chrono::milliseconds dura(5000);
-            this_thread::sleep_for(dura);
-            //try to connect
-    }
-    //you need to check the conections wether is ok
-    ok->subscribe_depth(oksym);
+    //string oksym = "ok_sub_spot_ada_btc_depth";
+    //okex                        *ok     = new okex();
+    //ok->start_stream();
+    //ok->subscribe_depth(oksym);
+    //cout<<"all wss is ok ....."<<endl;
     //string result = ok->create_limit_sell_order("eos_usdt",2.1965,8.0);
     //cout <<result<<endl;
+
+
+
 
 
  /*   while(true){
@@ -1301,38 +1404,39 @@ int main(int argc, char *argv[])
     }  */
 
     //this_thread::sleep_for(dura);
-
+    cout<<"loop..."<<endl;
     //need to check two exchange wss state
     while(true){
             //cout<<"sleep 0.5 sec"<<endl;
-            chrono::milliseconds dura(500);
+            chrono::milliseconds dura(5000);
             this_thread::sleep_for(dura);
-            double bnprice1    = bn->symbol_askbid_table[bnsym].ask_table.begin()->first;
+       /*     double bnprice1    = bn->symbol_askbid_table[bnsym].ask_table.begin()->first;
             double bnquantity1 = bn->symbol_askbid_table[bnsym].ask_table.begin()->second;
             double okprice1    = ok->symbol_askbid_table[oksym].bid_table.rbegin()->first;
             double okquantity1 = ok->symbol_askbid_table[oksym].bid_table.rbegin()->second;
 
-            double profit1     = profitcalc(bnprice1,bnquantity1,0.001,okprice1,okquantity1,0.002);
+            double profit1     = profitcalc(bnprice1,bnquantity1,0.001,okprice1,okquantity1,0.002); */
 
             //need to put  into a iterator
-            double bnprice2    = bn->symbol_askbid_table[bnsym].bid_table.rbegin()->first;
+  /*          double bnprice2    = bn->symbol_askbid_table[bnsym].bid_table.rbegin()->first;
             double bnquantity2 = bn->symbol_askbid_table[bnsym].bid_table.rbegin()->second;
             double okprice2    = ok->symbol_askbid_table[oksym].ask_table.begin()->first;
             double okquantity2 = ok->symbol_askbid_table[oksym].ask_table.begin()->second;
 
-            double profit2     = profitcalc(okprice2,okquantity2,0.002,bnprice2,bnquantity2,0.001);
+            double profit2     = profitcalc(okprice2,okquantity2,0.002,bnprice2,bnquantity2,0.001);  */
 
-     /*       if(profit>0.1){
-                double tradeqtt =  (bnquantity>okquantity)?okquantity:bnquantity;
-                string sy = "eosusdt";
-                thread tbuy(buy,bn,sy,tradeqtt,bnprice);
-                string sellby = "ok_sub_spot_eos_usdt_depth";
-                thread tsell(sell,ok,sellby,tradeqtt,okprice);
-                tbuy.join();
-                tsell.join();
-                cout<<"buy and sell is complete.."<<endl;
-                this_thread::sleep_until(chrono::system_clock::now() + chrono::hours(numeric_limits<int>::max()));
-            } */
+
+        /*    double tradeqtt =  (bnquantity>okquantity)?okquantity:bnquantity;
+
+            string sy = "eosusdt";
+            thread tbuy(buy,bn,sy,tradeqtt,bnprice);
+            string sellby = "ok_sub_spot_eos_usdt_depth";
+            thread tsell(sell,ok,sellby,tradeqtt,okprice);
+            tbuy.join();
+            tsell.join();
+            cout<<"buy and sell is complete.."<<endl;
+            this_thread::sleep_until(chrono::system_clock::now() + chrono::hours(numeric_limits<int>::max()));*/
+
     }
 
 /*
@@ -1347,6 +1451,8 @@ int main(int argc, char *argv[])
             profitcalc(okprice,okquantity,0.002,bnprice,bnquantity,0.001);
 
     }*/
+
+    //start the zeroMQ pub-sub server
 
     // json parse
 

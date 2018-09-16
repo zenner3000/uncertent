@@ -18,6 +18,7 @@
 					<Add directory="uWebSockets/src" />
 					<Add directory="openssl/include" />
 					<Add directory="zlibout/include" />
+					<Add directory="../boost1.68out/include" />
 					<Add directory="rapidjson/include" />
 					<Add directory="curlsslout/include" />
 					<Add directory="include" />
@@ -31,6 +32,7 @@
 					<Add library="pthread" />
 					<Add library="curl" />
 					<Add directory="zlibout/lib" />
+					<Add directory="../boost1.68out/lib" />
 					<Add directory="openssl/lib" />
 					<Add directory="uWebSockets" />
 					<Add directory="curlsslout/lib" />
@@ -75,6 +77,8 @@
 		<Unit filename="exchange/binance.h" />
 		<Unit filename="exchange/exchange.cpp" />
 		<Unit filename="exchange/exchange.h" />
+		<Unit filename="exchange/exg58coin.cpp" />
+		<Unit filename="exchange/exg58coin.h" />
 		<Unit filename="exchange/huobipro.cpp" />
 		<Unit filename="exchange/huobipro.h" />
 		<Unit filename="exchange/okex.cpp" />

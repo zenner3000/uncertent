@@ -5,6 +5,8 @@
 #include "exchange.h"
 #include <vector>
 #include <map>
+#include <mutex>
+#include <condition_variable>
 #include "common.h"
 #include "rapidjson/document.h"
 using namespace std;
@@ -32,9 +34,12 @@ class okex : public exchange
         void   parse_priceamount_to_map(string symbol,const Value &data);
 
         map<string,askbidtable> symbol_askbid_table;
-        uWS::Hub h; // can not be pointer
+        //uWS::Hub h; // can not be pointer
         uWS::WebSocket<uWS::CLIENT> *ws;
         bool   wsconn_state;
+        mutex mu;
+        condition_variable cv;
+        bool sub_state;
 
 
         const string restdomain = "https://www.okex.com/api/v1";

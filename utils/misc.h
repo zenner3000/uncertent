@@ -5,6 +5,7 @@
 
 #include <string>
 #include <map>
+#include "zlib.h"
 using namespace std;
 
 string sha256_then_base64(const string &data, const string &key);
@@ -18,4 +19,9 @@ string& to_lower(string& str);
 string& to_upper(string& str);
 string to_lowercase(string str);
 string to_uppercase(string str);
+bool gzip_compress(const std::string& data, std::string& compressedData, int level);
+bool gzip_uncompress(const std::string& compressedData, std::string& data);
+int UncompressData( const char* abSrc, int nLenSrc, char* abDst, int nLenDst );
+int deflatetest(char * src, int srclen, string& data);
+bool inflate_uncompress(const string& compressedData, string& data);
 

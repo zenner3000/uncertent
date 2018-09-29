@@ -7,6 +7,7 @@
 #include <thread>
 #include <iostream>
 #include <mutex>
+#include <chrono>
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
@@ -119,6 +120,18 @@ void   okex::sendmsg(string msg){
     this->ws->send(msg.c_str());
 }
 
+void   okex::start_heartbeat(){
+    thread t(&okex::threadfunc_heartbeat,this);
+    t.detach();
+}
+
+void   okex::threadfunc_heartbeat(){
+    while(true){
+        this->ws->send("{'event':'ping'}");
+        chrono::milliseconds dura(30000);
+        this_thread::sleep_for(dura);
+    }
+}
 
 //string symbol, map<double,double>  &bidtable, map<double,double>  &asktable
 void   okex::threadfunc_stream(){
@@ -178,7 +191,7 @@ void   okex::threadfunc_stream(){
             this->wsconn_state = true;
             cv.notify_one();
             //ws->send("{\'event\':\'addChannel\',\'channel\':\'ok_sub_spot_eos_usdt_depth\'}");
-
+            start_heartbeat();
             break;
         default:
             std::cout << "FAILURE: " << ws->getUserData() << " should not connect!" << std::endl;
@@ -194,13 +207,13 @@ void   okex::threadfunc_stream(){
     h.onMessage([this](uWS::WebSocket<uWS::CLIENT> *ws, char *message, size_t length, uWS::OpCode opCode) {
         //cout << string(message, length) << endl;
         string msg = string(message, length);
+        if(msg.front() == '{'){
+         //   cout<<msg<<endl;
+            return;
+        }
         msg.pop_back();
         msg.erase(0,1);
-        cout << msg<< endl;
-        if(msg.empty()){
-            cout<<"empty msg..."<<endl;
-        }
-//https://github.com/Tencent/rapidjson/blob/master/example/tutorial/tutorial.cpp
+        //cout << msg<< endl;
 
         Document d;
         d.Parse(msg.c_str());

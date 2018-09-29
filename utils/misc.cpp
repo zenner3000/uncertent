@@ -37,7 +37,35 @@ string b2a_hex(char *byte_arr, int n) {
 	return HexString;
 }
 
-string sha256_then_base64(const string &data, const string &key) {
+string sha256hash(const string str)
+{
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+    SHA256_Update(&sha256, str.c_str(), str.size());
+    SHA256_Final(hash, &sha256);
+    stringstream ss;
+    for(int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+    {
+        ss << hex << setw(2) << setfill('0') << (int)hash[i];
+    }
+    return ss.str();
+}
+
+string sha256hashbyte_then_base64(const string str)
+{
+    string retstr;
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+    SHA256_Update(&sha256, str.c_str(), str.size());
+    SHA256_Final(hash, &sha256);
+	retstr = base64_encode(hash, SHA256_DIGEST_LENGTH);
+    return retstr;
+}
+
+string sha256_then_base64(const string &data, const string &key)
+{
 
 	unsigned char * result;
 	unsigned int len = 32;
@@ -54,7 +82,8 @@ string sha256_then_base64(const string &data, const string &key) {
 	return retstr;
 }
 
-string sha256_then_str(string data, string key) {
+string sha256_then_str(string data, string key)
+{
 
 	unsigned char * result;
 	unsigned int len = 32;
@@ -72,7 +101,8 @@ string sha256_then_str(string data, string key) {
 	return retstr;
 }
 
-string md5_then_str(const string &data){
+string md5_then_str(const string &data)
+{
     string retstr;
     MD5_CTX ctx;
     unsigned char  digest[16] = {0};
@@ -85,6 +115,24 @@ string md5_then_str(const string &data){
         ss<<hex<<(unsigned int)digest[i];
     }
     return ss.str();
+}
+
+string sha512withkey_thenbase64(const string data,string key)
+{
+	unsigned char * result;
+	unsigned int len = SHA512_DIGEST_LENGTH;
+	result = new unsigned char[len];
+	string retstr;
+
+	HMAC_CTX *ctx = HMAC_CTX_new();
+	HMAC_Init_ex(ctx, key.c_str(), key.length(), EVP_sha512(), NULL);
+	HMAC_Update(ctx, (unsigned char*)(data.c_str()), data.length());
+	HMAC_Final(ctx, result, &len);
+
+    retstr = base64_encode(result, len);
+
+	delete[]result;
+	return retstr;
 }
 
 string getutctime() {

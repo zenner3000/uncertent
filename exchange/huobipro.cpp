@@ -181,7 +181,7 @@ void   huobipro::threadfunc_stream()
     });
 
     h.onDisconnection([](uWS::WebSocket<uWS::CLIENT> *ws, int code, char *message, size_t length) {
-        std::cout << "Okex Client got disconnected with data: " << ws->getUserData() << ", code: " << code << ", message: <" << std::string(message, length) << ">" << std::endl;
+        std::cout << "huobipro Client got disconnected with data: " << ws->getUserData() << ", code: " << code << ", message: <" << std::string(message, length) << ">" << std::endl;
     });
 
 
@@ -213,7 +213,7 @@ void   huobipro::threadfunc_stream()
     //h.connect("wss://api.zb.com:9999/websocket", (void *) 9);
     //h.connect("ws://127.0.0.1:6000", (void *) 10, {}, 60000);
 
-    cout<<"okex websocket connect......"<<endl;
+    cout<<"huobipro websocket connect......"<<endl;
     h.run();
     cout << "Falling through testConnections" <<endl;
 }

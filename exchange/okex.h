@@ -27,6 +27,8 @@ class okex : public exchange
         //websocket
         void   threadfunc_stream();
         void   start_stream();
+        void   threadfunc_heartbeat();
+        void   start_heartbeat();
         void   closestream();
         void   subscribe_depth(string symbol);
         void   cancel_subscribe_depth(string symbol);

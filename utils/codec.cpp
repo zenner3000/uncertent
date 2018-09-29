@@ -104,7 +104,7 @@ string base64_decode(std::string const& encoded_string) {
 }
 
 /*encode the string*/
-string base64_encode1(const string &in) {
+string base64_encodestr(const string &in) {
 
 	string out;
 
@@ -123,7 +123,7 @@ string base64_encode1(const string &in) {
 }
 
 /*decode the string*/
-string base64_decode1(const string &in) {
+string base64_decodestr(const string &in) {
 
 	string out;
 

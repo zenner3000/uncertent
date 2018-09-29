@@ -7,7 +7,12 @@
 #include "common.h"
 #include <mutex>
 #include <condition_variable>
+#include "rapidjson/document.h"
+
+
 using namespace std;
+using namespace rapidjson;
+
 
 class exg58coin
 {
@@ -19,11 +24,12 @@ class exg58coin
         void   threadfunc_stream();
         void   start_stream();
         void   closestream();
-        void   subscribe_depth(string symbol);
+        void   subscribe_depth(string symbol,string type);
         void   cancel_subscribe_depth(string symbol);
         void   sendmsg(string msg);
-        //void   parse_priceamount_to_map(string symbol,const Value &data);
+        void   parse_priceamount_to_map(string symbol,const Value &data);
         void   heartbeat();
+
 
         uWS::WebSocket<uWS::CLIENT> *ws;
         map<string,askbidtable> symbol_askbid_table;

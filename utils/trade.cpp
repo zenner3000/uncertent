@@ -42,16 +42,18 @@ double profitcalc(double sellprice, double sellquantity, double sell_feerate, do
     double fee_sellpercoin  =  sellprice * sell_feerate;
     double fee_buypercoin   =  buyprice  * buy_feerate;
     double profit_percoin = (buyprice - fee_buypercoin) - (sellprice - fee_sellpercoin);
+    double trademoney = sellprice * tradeqtt * 2;
 
    if(profit_percoin>0){
         totalprofit =  profit_percoin * tradeqtt;
-
-        cout<<fixed<<setprecision(13)<<"sell price--"<<sellprice<<"  quantity--"<<sellquantity<<"   fee--"<<sell_feerate<<"     fee_sell--"<<fee_sellpercoin<<endl;
-        cout<<fixed<<setprecision(13)<<"buy price--"<<buyprice<<"  quantity--"<<buyquantity<<"   fee--"<<buy_feerate<<"     fee_buy--"<<fee_buypercoin<<endl;
-        cout<<fixed<<setprecision(13)<<"each coin profit--"<<profit_percoin<<endl;
-        cout<<fixed<<setprecision(13)<<"totalprofit--"<<totalprofit<<"   tradeqtt--"<<tradeqtt<<endl;
-        cout<<"--------"<<endl;
-
+        if(totalprofit>0.5){
+            cout<<fixed<<setprecision(13)<<"sell price--"<<sellprice<<"  quantity--"<<sellquantity<<"   fee--"<<sell_feerate<<"     fee_sell--"<<fee_sellpercoin<<endl;
+            cout<<fixed<<setprecision(13)<<"buy price--"<<buyprice<<"  quantity--"<<buyquantity<<"   fee--"<<buy_feerate<<"     fee_buy--"<<fee_buypercoin<<endl;
+            cout<<fixed<<setprecision(13)<<"each coin profit--"<<profit_percoin<<endl;
+            cout<<fixed<<setprecision(13)<<"trademoney--"<<trademoney<<"   tradeqtt--"<<tradeqtt<<endl;
+            cout<<fixed<<setprecision(13)<<"totalprofit--"<<totalprofit<<endl;
+            cout<<"--------"<<endl;
+        }
         return profit_percoin;
     }
     return 0;

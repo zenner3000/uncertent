@@ -648,7 +648,7 @@
 1533066237 source:/root/Desktop/uncertent/exchange/exchange.cpp
 	"exchange.h"
 
-1536860567 source:/root/Desktop/uncertent/exchange/huobipro.cpp
+1537128165 source:/root/Desktop/uncertent/exchange/huobipro.cpp
 	"huobipro.h"
 	"../utils/httprequest.h"
 	<map>
@@ -676,7 +676,7 @@
 	<string>
 	<iostream>
 
-1533524038 /root/Desktop/uncertent/utils/httprequest.h
+1538044808 /root/Desktop/uncertent/utils/httprequest.h
 	<vector>
 
 1532283466 /root/Desktop/uncertent/curlsslout/include/curl/curl.h
@@ -714,9 +714,9 @@
 
 1532283466 /root/Desktop/uncertent/curlsslout/include/curl/typecheck-gcc.h
 
-1533062193 /root/Desktop/uncertent/utils/codec.h
+1537269712 /root/Desktop/uncertent/utils/codec.h
 
-1536945261 /root/Desktop/uncertent/utils/misc.h
+1538065775 /root/Desktop/uncertent/utils/misc.h
 	<string>
 	<map>
 	"zlib.h"
@@ -808,7 +808,7 @@
 	<openssl/ossl_typ.h>
 	<openssl/crypto.h>
 
-1535785800 source:/root/Desktop/uncertent/exchange/okex.cpp
+1537466180 source:/root/Desktop/uncertent/exchange/okex.cpp
 	"okex.h"
 	<map>
 	"../utils/codec.h"
@@ -818,11 +818,12 @@
 	<thread>
 	<iostream>
 	<mutex>
+	<chrono>
 	"rapidjson/document.h"
 	"rapidjson/writer.h"
 	"rapidjson/stringbuffer.h"
 
-1535716950 /root/Desktop/uncertent/exchange/okex.h
+1537435039 /root/Desktop/uncertent/exchange/okex.h
 	"uWS.h"
 	"exchange.h"
 	<vector>
@@ -832,7 +833,7 @@
 	"common.h"
 	"rapidjson/document.h"
 
-1537000137 source:/root/Desktop/uncertent/main.cpp
+1538215249 source:/root/Desktop/uncertent/main.cpp
 	"uWS.h"
 	<iostream>
 	<chrono>
@@ -854,10 +855,15 @@
 	"exchange/binance.h"
 	"exchange/okex.h"
 	"exchange/exg58coin.h"
+	"exchange/zb.h"
+	"exchange/deribit.h"
+	"exchange/gateio.h"
+	"exchange/bitmex.h"
+	"exchange/poloniex.h"
+	"exchange/bitfinex.h"
 	"utils/httprequest.h"
 	"utils/misc.h"
 	"utils/trade.h"
-	"Room.h"
 
 1530917309 /root/Desktop/uncertent/uWebSockets/src/uWS.h
 	"Hub.h"
@@ -1273,7 +1279,7 @@
 	"Group.h"
 	"Hub.h"
 
-1533060591 source:/root/Desktop/uncertent/utils/codec.cpp
+1537258529 source:/root/Desktop/uncertent/utils/codec.cpp
 	<string>
 	<vector>
 	<cstring>
@@ -1287,7 +1293,7 @@
 	<iostream>
 	<vector>
 
-1537012540 source:/root/Desktop/uncertent/utils/misc.cpp
+1537304753 source:/root/Desktop/uncertent/utils/misc.cpp
 	"misc.h"
 	"time.h"
 	"openssl/sha.h"
@@ -1313,7 +1319,7 @@
 	<map>
 	"zlib.h"
 
-1535715807 source:/root/Desktop/uncertent/utils/trade.cpp
+1537468360 source:/root/Desktop/uncertent/utils/trade.cpp
 	"trade.h"
 	<thread>
 	<iostream>
@@ -1328,21 +1334,25 @@
 	<iostream>
 	"exchange.h"
 
-1537012585 source:/root/Desktop/uncertent/exchange/exg58coin.cpp
+1537480568 source:/root/Desktop/uncertent/exchange/exg58coin.cpp
 	"exg58coin.h"
 	<iostream>
 	<mutex>
 	<thread>
 	<condition_variable>
 	"../utils/misc.h"
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
 
-1536836081 /root/Desktop/uncertent/exchange/exg58coin.h
+1537478327 /root/Desktop/uncertent/exchange/exg58coin.h
 	"uWS.h"
 	<string>
 	<map>
 	"common.h"
 	<mutex>
 	<condition_variable>
+	"rapidjson/document.h"
 
 1535970207 /root/Desktop/boost1.68out/include/boost/asio.hpp
 	<boost/asio/associated_allocator.hpp>
@@ -15279,4 +15289,177 @@
 
 1535970211 /root/Desktop/boost1.68out/include/boost/iostreams/putback.hpp
 	<boost/iostreams/read.hpp>
+
+1537347833 source:/root/Desktop/uncertent/exchange/bitfinex.cpp
+	"bitfinex.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+	"../utils/httprequest.h"
+	<string>
+	<thread>
+	<iostream>
+	<mutex>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+
+1537347029 /root/Desktop/uncertent/exchange/bitfinex.h
+	"uWS.h"
+	"exchange.h"
+	<vector>
+	<map>
+	<mutex>
+	<condition_variable>
+	"common.h"
+	"rapidjson/document.h"
+
+1537127875 source:/root/Desktop/uncertent/exchange/bitflyer.cpp
+	"bitflyer.h"
+
+1537127874 /root/Desktop/uncertent/exchange/bitflyer.h
+
+1537127813 source:/root/Desktop/uncertent/exchange/bithumb.cpp
+	"bithumb.h"
+
+1537127812 /root/Desktop/uncertent/exchange/bithumb.h
+
+1538215503 source:/root/Desktop/uncertent/exchange/bitmex.cpp
+	"bitmex.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+	"../utils/httprequest.h"
+	<string>
+	<thread>
+	<iostream>
+	<mutex>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+	"sqlite3.h"
+	<list>
+
+1538054418 /root/Desktop/uncertent/exchange/bitmex.h
+	"uWS.h"
+	"exchange.h"
+	<vector>
+	<map>
+	<mutex>
+	<condition_variable>
+	"common.h"
+	"rapidjson/document.h"
+	"sqlite3.h"
+
+1537127714 source:/root/Desktop/uncertent/exchange/bittrex.cpp
+	"bittrex.h"
+
+1537127713 /root/Desktop/uncertent/exchange/bittrex.h
+
+1537302684 source:/root/Desktop/uncertent/exchange/deribit.cpp
+	"deribit.h"
+	"../utils/httprequest.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+	<iostream>
+	<thread>
+	<mutex>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+
+1537265271 /root/Desktop/uncertent/exchange/deribit.h
+	"uWS.h"
+	"exchange.h"
+	<vector>
+	<map>
+	<mutex>
+	<condition_variable>
+	"common.h"
+	"rapidjson/document.h"
+
+1537305912 source:/root/Desktop/uncertent/exchange/gateio.cpp
+	"gateio.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+	"../utils/httprequest.h"
+	<string>
+	<thread>
+	<iostream>
+	<mutex>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+
+1537303640 /root/Desktop/uncertent/exchange/gateio.h
+	"uWS.h"
+	"exchange.h"
+	<vector>
+	<map>
+	<mutex>
+	<condition_variable>
+	"common.h"
+	"rapidjson/document.h"
+
+1537127679 source:/root/Desktop/uncertent/exchange/jex.cpp
+	"jex.h"
+
+1537127678 /root/Desktop/uncertent/exchange/jex.h
+
+1537308710 source:/root/Desktop/uncertent/exchange/poloniex.cpp
+	"poloniex.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+	"../utils/httprequest.h"
+	<string>
+	<thread>
+	<iostream>
+	<mutex>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+
+1537308216 /root/Desktop/uncertent/exchange/poloniex.h
+	"uWS.h"
+	"exchange.h"
+	<vector>
+	<map>
+	<mutex>
+	<condition_variable>
+	"common.h"
+	"rapidjson/document.h"
+
+1537127831 source:/root/Desktop/uncertent/exchange/upbit.cpp
+	"upbit.h"
+
+1537127831 /root/Desktop/uncertent/exchange/upbit.h
+
+1537172778 source:/root/Desktop/uncertent/exchange/zb.cpp
+	"zb.h"
+	"../utils/httprequest.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+	<iostream>
+	<thread>
+	<mutex>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+
+1537128408 /root/Desktop/uncertent/exchange/zb.h
+	"uWS.h"
+	"exchange.h"
+	<vector>
+	<map>
+	<mutex>
+	<condition_variable>
+	"common.h"
+	"rapidjson/document.h"
+
+1537669464 /root/Desktop/uncertent/sqliteout/include/sqlite3.h
+	<stdarg.h>
 

@@ -5,7 +5,9 @@
 #include <thread>
 #include <condition_variable>
 #include "../utils/misc.h"
-
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
 using namespace std;
 
 exg58coin::exg58coin()
@@ -90,59 +92,44 @@ void exg58coin::threadfunc_stream(){
         cout << "58coin Client got disconnected with data: " << ws->getUserData() << ", code: " << code << ", message: <" << string(message, length) << ">" << endl;
     });
 
-    h.onMessage([](uWS::WebSocket<uWS::CLIENT> *ws, char *message, size_t length, uWS::OpCode opCode) {
+    h.onMessage([this](uWS::WebSocket<uWS::CLIENT> *ws, char *message, size_t length, uWS::OpCode opCode) {
         //cout << string(message, length) << endl;
         string msg = string(message, length);
-        if(uWS::OpCode::TEXT == opCode)
-            cout << msg<< endl;
-        else if((uWS::OpCode::BINARY == opCode)){
-            string tmp;
-            //deflatetest(message,length,tmp);
-            //inflate_uncompress(msg,tmp);
-            inflate_uncompress(msg,tmp);
-            cout<<"tmp--->"<<tmp<<endl;
-        }
-
-     /*   Document d;
-        d.Parse(msg.c_str());
-        if(d.HasMember("channel")){
-            string symbol = d["channel"].GetString();
-            if(symbol.compare("addChannel")!=0 ){
-                if(d.HasMember("data")){
-                    const Value &data = d["data"];
-                    this->parse_priceamount_to_map(symbol,data);
-                }
-            }else if(symbol.compare("addChannel")==0 ){
-                if(d.HasMember("data")){
-                    const Value &data = d["data"];
-                    bool result = data["result"].GetBool();
-                    if(result){
+        if(uWS::OpCode::TEXT == opCode){
+            cout <<"text--"<<msg<< endl;
+            Document d;
+            d.Parse(msg.c_str());
+            if(d.HasMember("event")){
+                string event = d["event"].GetString();
+                if(event.compare("SUB")==0){
+                    string mesg = d["msg"].GetString();
+                    if(mesg.compare("success")==0){
                         cout<<"subscribtion success..."<<endl;
                         this->sub_state = true;
                         cv.notify_one();
                     }
                 }
             }
-        }  */
+        }else if((uWS::OpCode::BINARY == opCode)){
+            string uncmprmsg;
+            //deflatetest(message,length,tmp);
+            //inflate_uncompress(msg,tmp);
+            inflate_uncompress(msg,uncmprmsg);
+            //cout<<"uncmprmsg--->"<<uncmprmsg<<endl;
+
+            Document d;
+            d.Parse(uncmprmsg.c_str());
+            if(d.HasMember("product") && d.HasMember("type")){
+                string symbol = d["product"].GetString();
+                if(d.HasMember("data")){
+                    const Value &data = d["data"];
+                    this->parse_priceamount_to_map(symbol,data);
+                }
+            }
+        }
 
     });
-
-
-
-    //h.connect("invalid URI", (void *) 1);
-    //h.connect("invalid://validButUnknown.yolo", (void *) 11);
-    //h.connect("ws://validButUnknown.yolo", (void *) 2);
-    //h.connect("ws://echo.websocket.org", (void *) 3, {}, 10);
-    //h.connect("ws://echo.websocket.org", (void *) 8);
-    //h.connect("wss://echo.websocket.org", (void *) 5, {}, 10);
-    //h.connect("wss://echo.websocket.org", (void *) 9);
-    //h.connect("ws://google.com", (void *) 6);
     h.connect(this->wssdomain,(void *) 9);
-    //h.connect("wss://api.huobi.pro/ws",(void *) 9);
-    //h.connect("wss://stream.binance.com:9443/stream?streams=eosusdt@depth.b10",(void *) 9);
-    //h.connect("wss://api.zb.com:9999/websocket", (void *) 9);
-    //h.connect("ws://127.0.0.1:6000", (void *) 10, {}, 60000);
-
     cout<<"58coin websocket connect......"<<endl;
     h.run();
     cout << "Falling through testConnections" <<endl;
@@ -172,8 +159,13 @@ void exg58coin::start_stream(){
     tt.detach();
 }
 
-void   exg58coin::subscribe_depth(string symbol){
-    string subststr = "{\"event\" : \"SUB\", \"type\" : \"ORDER_BOOK\", \"product\" : \"" + symbol + "\"}";
+/*
+ORDER_BOOK , xian huo
+SWAPS_ORDER , futures
+*/
+void   exg58coin::subscribe_depth(string symbol,string type){
+    string subststr = "{\"event\" : \"SUB\", \"type\" : \"" + type + "\", \"product\" : \"" + symbol + "\"}";
+    cout<<"subs---"<<subststr<<endl;
     struct askbidtable askbid_table;
     this->symbol_askbid_table[symbol] = askbid_table;
 
@@ -185,7 +177,41 @@ void   exg58coin::subscribe_depth(string symbol){
     cout<<"exg58coin  sub is complete---"<<endl;
 }
 
+
 void   exg58coin::sendmsg(string msg){
     this->ws->send(msg.c_str());
 }
 
+
+void   exg58coin::parse_priceamount_to_map(string symbol,const Value &data){
+
+    if(data.HasMember("asks")){
+          const Value &asks = data["asks"];
+          for(SizeType i = 0;i<asks.Size();i++){
+               const Value &item = asks[i];
+               //cout<<item[0].GetString() <<"    "<< item[1].GetString() <<endl;
+               double price  = stod(item[0].GetString());
+               double amount = stod(item[1].GetString());
+               if(amount==0){
+                    this->symbol_askbid_table[symbol].ask_table.erase(price);
+               }else{
+                    this->symbol_askbid_table[symbol].ask_table[price] = amount;
+               }
+          }
+    }
+    if(data.HasMember("bids")){
+        const Value &bids = data["bids"];
+        for(SizeType i = 0;i<bids.Size();i++){
+            const Value &item = bids[i];
+            //cout<<item[0].GetString() <<"    "<< item[1].GetString() <<endl;
+            double price  = stod(item[0].GetString());
+            double amount = stod(item[1].GetString());
+            if(amount==0){
+                this->symbol_askbid_table[symbol].bid_table.erase(price);
+            }else{
+                this->symbol_askbid_table[symbol].bid_table[price] = amount;
+                //cout<<"price--"<<price<<"   amount---"<<amount<<endl;
+            }
+        }
+    }
+}

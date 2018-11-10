@@ -144,6 +144,8 @@ int main(int argc, char *argv[])
     t.join(); */
 
 
+
+    this_thread::sleep_until(chrono::system_clock::now() + chrono::hours(numeric_limits<int>::max()));
     /*
     string uri = genuri_byparm();
     string domain = "https://api.huobi.pro";
@@ -153,21 +155,107 @@ int main(int argc, char *argv[])
     https_get(url,header);
     */
 
+/*
+    huobipro *hb = new huobipro();
+    //string hbstr = hb->get_balance();
+    //cout <<hbstr<<endl;
+    hb->start_stream();
+    //hb->subscribe_depth("btcusdt");
+    hb->subscribe_trade_detail("btcusdt");
+//    this_thread::sleep_until(chrono::system_clock::now() + chrono::hours(numeric_limits<int>::max()));
+
+    while(true){
+        // cout<<"sleep 60 sec"<<endl;
+        cout<<"-----60s-----"<<endl;
+        chrono::milliseconds dura(300000);
+        this_thread::sleep_for(dura);
+        cout<<getCurrentSystemTime()<<endl;
+        cout<<"ask amount    "<<"bid amount"<<endl;
+        cout<<hb->ask_amount<<"         "<<hb->bid_amount<<endl;
+        cout<<"ask sum       "<<"bid sum"<<endl;
+        cout<<hb->ask_sum<<"        "<<hb->bid_sum<<endl;
+        cout<<"ask/bid   "<<hb->ask_sum/hb->bid_sum<<endl;
+        cout<<"bid/ask   "<<hb->bid_sum/hb->ask_sum<<endl;
+        hb->ask_amount=0;
+        hb->ask_sum=0;
+        hb->bid_amount=0;
+        hb->bid_sum=0;
+    }  */
+
+/*
+    bitmex * bm = new bitmex();
+    bm->init_table();
+    bm->start_stream();
+    //bm->subscribe_depth("xx");  //sub string not correct
+    bm->subscribe_trade("xx");
+
+    //this_thread::sleep_until(chrono::system_clock::now() + chrono::hours(numeric_limits<int>::max()));
+    chrono::milliseconds dura(5000);
+    this_thread::sleep_for(dura);
+
+
+    while(true){
+        chrono::milliseconds dura(1000*60*1);
+        this_thread::sleep_for(dura);
+
+        cout<<"----------------------------"<<endl;
+        cout<<getCurrentSystemTime()<<endl;
+        cout<<"ask amount    "<<"bid amount"<<endl;
+        cout<<bm->ask_amount<<"         "<<bm->bid_amount<<endl;
+        cout<<"ask sum       "<<"bid sum"<<endl;
+        cout<<bm->ask_sum<<"        "<<bm->bid_sum<<endl;
+        cout<<"ask/bid   "<<bm->ask_sum/bm->bid_sum<<endl;
+        cout<<"bid/ask   "<<bm->bid_sum/bm->ask_sum<<endl;
+        bm->ask_amount=0;
+        bm->ask_sum=0;
+        bm->bid_amount=0;
+        bm->bid_sum=0;
+    }*/
+
+
 
     bitmex * bm = new bitmex();
     bm->init_table();
     bm->start_stream();
     bm->subscribe_depth("xx");  //sub string not correct
 
-  /*  chrono::milliseconds dura(3000);
-    this_thread::sleep_for(dura);*/
+    chrono::milliseconds dura(5000);
+    this_thread::sleep_for(dura);
+    //bm->select_askamount("XBTUSDSell");
+
+
     while(true){
         // cout<<"sleep 0.5 sec"<<endl;
-        chrono::milliseconds dura(100);
+        chrono::milliseconds dura(1000*30);    //100ms is the best  for bitmex orderbook display . 3000ms is the best for sum amount
         this_thread::sleep_for(dura);
-        bm->selectprice("XBTUSDSell");    //100ms is the best  for bitmex
-        cout<<"------"<<endl;
+       //bm->select_price("XBTUSDSell","asc",10);
+       //bm->select_price("XBTUSDBuy","desc",10);
+       //bm->select_minsellprice("XBTUSDSell");
+
+
+        bm->select_askamount("XBTUSDSell");
+        bm->select_bidamount("XBTUSDBuy");
+        double a_b = bm->m_ask/bm->m_bid;
+        double b_a = bm->m_bid/bm->m_ask;
+        cout<<"--------------------------------"<<endl;
+        cout<<getCurrentSystemTime()<<endl;
+        cout<<"sell/buy----"<<a_b<<endl;
+        cout<<"buy/sell----"<<b_a<<endl;
+
+        if(a_b>6.0){
+            cout<<"signal----->sell"<<endl;
+            cout<<"####### sell/buy ####### "<<a_b<<endl;
+        }
+        if(b_a>6.0){
+            cout<<"signal----->buy"<<endl;
+            cout<<"####### buy/sell ####### "<<b_a<<endl;
+        }
+
     }
+    //bm->selectprice("XBTUSDSell");
+    //bm->selectprice("XBTUSDBuy");
+    //thread --- min+max /2   0.2%
+    //
 
     /*
 
@@ -231,7 +319,8 @@ int main(int argc, char *argv[])
     //string result =  hb->create_limit_sell_order("xrpusdt",1.58,0.6);
     //cout<<result<<endl;
 
-  /*  string bnsym = "xrpusdt";
+    /*
+    string bnsym = "xlmbtc";
     binance *bn = new binance();
     //string result = bn->create_limit_sell_order("ethusdt",0.17910,480);
     //cout<< result <<endl;
@@ -253,14 +342,17 @@ int main(int argc, char *argv[])
     //string result = ok->create_limit_sell_order("eos_usdt",2.1965,8.0);
     //cout <<result<<endl;
 
+  /*  string oksym = "ok_sub_spot_xlm_btc_depth";
+    okex                        *ok     = new okex();
+    ok->start_stream();
+    ok->subscribe_depth(oksym);  */
 
-
-    while(true){
+  /*   while(true){
        // cout<<"sleep 0.5 sec"<<endl;
         chrono::milliseconds dura(500);
         this_thread::sleep_for(dura);
 
-   /*   map<double,double>::reverse_iterator  rit;
+     map<double,double>::reverse_iterator  rit;
         for(rit=bm->symbol_askbid_table["XBTUSD"].ask_table.rbegin();rit!=bm->symbol_askbid_table["XBTUSD"].ask_table.rend();rit++){
             cout<<"ask-----"<<rit->first<<"     "<<rit->second<<endl;
         }
@@ -273,8 +365,8 @@ int main(int argc, char *argv[])
                 break;
             }
             cnt++;
-        }  */
-    }
+        }
+    } */
     //this_thread::sleep_until(chrono::system_clock::now() + chrono::hours(numeric_limits<int>::max()));
 
  /*   while(true){
@@ -314,12 +406,12 @@ int main(int argc, char *argv[])
             double profit1     = profitcalc(bnprice1,bnquantity1,0.001,okprice1,okquantity1,0.002); */
 
             //need to put  into a iterator
-    /*       double bnprice2    = bn->symbol_askbid_table[bnsym].bid_table.rbegin()->first;
+    /*        double bnprice2    = bn->symbol_askbid_table[bnsym].bid_table.rbegin()->first;
             double bnquantity2 = bn->symbol_askbid_table[bnsym].bid_table.rbegin()->second;
             double okprice2    = ok->symbol_askbid_table[oksym].ask_table.begin()->first;
             double okquantity2 = ok->symbol_askbid_table[oksym].ask_table.begin()->second;
 
-            double profit2     = profitcalc(okprice2,okquantity2,0.002,bnprice2,bnquantity2,0.001);  */
+            double profit2     = profitcalc(okprice2,okquantity2,0.002,bnprice2,bnquantity2,0.001);   */
 
 
         /*    double tradeqtt =  (bnquantity>okquantity)?okquantity:bnquantity;

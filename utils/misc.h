@@ -16,7 +16,8 @@ string sha512withkey_thenbase64(const string str,string key);
 
 string getutctime();
 string parmmap_to_parmstr(map<string,string> mparm);
-string gettimestamp() ;
+string gettimestamp();
+const string getCurrentSystemTime();
 string b2a_hex(char *byte_arr, int n) ;
 string& to_lower(string& str);
 string& to_upper(string& str);

@@ -648,7 +648,7 @@
 1533066237 source:/root/Desktop/uncertent/exchange/exchange.cpp
 	"exchange.h"
 
-1537128165 source:/root/Desktop/uncertent/exchange/huobipro.cpp
+1541580811 source:/root/Desktop/uncertent/exchange/huobipro.cpp
 	"huobipro.h"
 	"../utils/httprequest.h"
 	<map>
@@ -661,7 +661,7 @@
 	"rapidjson/writer.h"
 	"rapidjson/stringbuffer.h"
 
-1536849088 /root/Desktop/uncertent/exchange/huobipro.h
+1541574894 /root/Desktop/uncertent/exchange/huobipro.h
 	"uWS.h"
 	"exchange.h"
 	<vector>
@@ -716,7 +716,7 @@
 
 1537269712 /root/Desktop/uncertent/utils/codec.h
 
-1538065775 /root/Desktop/uncertent/utils/misc.h
+1541586454 /root/Desktop/uncertent/utils/misc.h
 	<string>
 	<map>
 	"zlib.h"
@@ -833,7 +833,7 @@
 	"common.h"
 	"rapidjson/document.h"
 
-1538215249 source:/root/Desktop/uncertent/main.cpp
+1541728416 source:/root/Desktop/uncertent/main.cpp
 	"uWS.h"
 	<iostream>
 	<chrono>
@@ -1293,7 +1293,7 @@
 	<iostream>
 	<vector>
 
-1537304753 source:/root/Desktop/uncertent/utils/misc.cpp
+1541587001 source:/root/Desktop/uncertent/utils/misc.cpp
 	"misc.h"
 	"time.h"
 	"openssl/sha.h"
@@ -1319,7 +1319,7 @@
 	<map>
 	"zlib.h"
 
-1537468360 source:/root/Desktop/uncertent/utils/trade.cpp
+1538265371 source:/root/Desktop/uncertent/utils/trade.cpp
 	"trade.h"
 	<thread>
 	<iostream>
@@ -15324,7 +15324,7 @@
 
 1537127812 /root/Desktop/uncertent/exchange/bithumb.h
 
-1538215503 source:/root/Desktop/uncertent/exchange/bitmex.cpp
+1541728477 source:/root/Desktop/uncertent/exchange/bitmex.cpp
 	"bitmex.h"
 	<map>
 	"../utils/codec.h"
@@ -15337,10 +15337,11 @@
 	"rapidjson/document.h"
 	"rapidjson/writer.h"
 	"rapidjson/stringbuffer.h"
+	<chrono>
 	"sqlite3.h"
 	<list>
 
-1538054418 /root/Desktop/uncertent/exchange/bitmex.h
+1541634814 /root/Desktop/uncertent/exchange/bitmex.h
 	"uWS.h"
 	"exchange.h"
 	<vector>

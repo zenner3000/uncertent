@@ -19,7 +19,7 @@ using namespace std;
 
 huobipro::huobipro()
 {
-    wsconn_state = false;
+    wsconn_state    = false;
     sub_state    = false;
 }
 
@@ -194,10 +194,39 @@ void   huobipro::threadfunc_stream()
         }
         string msgout;
         gzip_uncompress(msg,msgout);
-        cout<<"----"<<msgout<<endl;
+        //cout<<"----"<<msgout<<endl;
+
+        //ping handle
+        Document d;
+        d.Parse(msgout.c_str());
+        if(d.HasMember("ping")){
+            uint64_t pingvalue = d["ping"].GetUint64();
+           // cout<<"ping--->"<<pingvalue<<endl;
+            string msg = "{\"ping\":" + to_string(pingvalue) + "}";
+            this->sendmsg(msg);
+        }else if(d.HasMember("ch")){   //parse trade detail
+            string symbol = d["ch"].GetString();
+            if(d.HasMember("tick")){
+                const Value &data = d["tick"]["data"];
+                this->parse_tradedetail(symbol,data);
+            }
+        }else if(d.HasMember("status") && d.HasMember("subbed")){
+            string status = d["status"].GetString();
+            if(status.compare("ok")==0){
+                this->sub_state = true;
+                cv.notify_one();
+            }
+        }
+
+
+
+
+     /*   if(msgout.substr(2,4).compare("ping")==0){
+        //    cout<<msgout.substr(2,4)<<endl;
+
+        }*/
+
     });
-
-
 
     //h.connect("invalid URI", (void *) 1);
     //h.connect("invalid://validButUnknown.yolo", (void *) 11);
@@ -236,16 +265,31 @@ void   huobipro::closestream()
 
 void   huobipro::subscribe_depth(string symbol)
 {
-    string subststr = "{\"sub\": \"" + symbol+ "\", \"id\": \"id111111111\"}";
+    string subststr = "{\"sub\": \"market." + symbol+ ".depth.step5\", \"id\": \"id111111111\"}";
     struct askbidtable askbid_table;
     this->symbol_askbid_table[symbol] = askbid_table;
 
     this->sendmsg(subststr);
 
     unique_lock<mutex> lock(mu);
-    cout<<"wait the sub complete---"<<endl;
+    cout<<"wait the sub depth complete---"<<endl;
     cv.wait(lock, [this] {return sub_state;});
-    cout<<"sub is complete---"<<endl;
+    cout<<"sub depth is complete---"<<endl;
+    this->sub_state = false;
+}
+
+void   huobipro::subscribe_trade_detail(string symbol)
+{
+    string subststr = "{\"sub\": \"market." + symbol+ ".trade.detail\", \"id\": \"id111111111\"}";
+    struct askbidtable askbid_table;
+    this->symbol_askbid_table[symbol] = askbid_table;
+
+    this->sendmsg(subststr);
+    unique_lock<mutex> lock(mu);
+    cout<<"wait the trade detail sub complete---"<<endl;
+    cv.wait(lock, [this] {return sub_state;});
+    cout<<"sub  trade detail  is complete---"<<endl;
+    this->sub_state = false;
 }
 
 void   huobipro::cancel_subscribe_depth(string symbol)
@@ -261,4 +305,25 @@ void   huobipro::sendmsg(string msg)
 void   huobipro::parse_priceamount_to_map(string symbol,const Value &data)
 {
 
+}
+
+void   huobipro::parse_tradedetail(string symbol,const Value &data)
+{
+      for(SizeType i = 0;i<data.Size();i++){
+           const Value &item = data[i];
+
+           string drt = item["direction"].GetString();
+           if(drt.compare("sell")==0){
+               double amount    = item["amount"].GetDouble();
+               this->ask_amount += amount;
+               double sum       = item["price"].GetDouble() * amount;
+               this->ask_sum    += sum;
+           }else{
+               double amount    = item["amount"].GetDouble();
+               this->bid_amount += amount;
+               double sum       = item["price"].GetDouble() * amount;
+               this->bid_sum    += sum;
+           }
+
+      }
 }

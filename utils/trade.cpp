@@ -46,7 +46,7 @@ double profitcalc(double sellprice, double sellquantity, double sell_feerate, do
 
    if(profit_percoin>0){
         totalprofit =  profit_percoin * tradeqtt;
-        if(totalprofit>0.5){
+        if(totalprofit>3){
             cout<<fixed<<setprecision(13)<<"sell price--"<<sellprice<<"  quantity--"<<sellquantity<<"   fee--"<<sell_feerate<<"     fee_sell--"<<fee_sellpercoin<<endl;
             cout<<fixed<<setprecision(13)<<"buy price--"<<buyprice<<"  quantity--"<<buyquantity<<"   fee--"<<buy_feerate<<"     fee_buy--"<<fee_buypercoin<<endl;
             cout<<fixed<<setprecision(13)<<"each coin profit--"<<profit_percoin<<endl;

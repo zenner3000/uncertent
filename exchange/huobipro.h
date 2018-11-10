@@ -52,22 +52,28 @@ class huobipro : public exchange
         void   start_stream();
         void   closestream();
         void   subscribe_depth(string symbol);
+        void   subscribe_trade_detail(string symbol);
         void   cancel_subscribe_depth(string symbol);
         void   sendmsg(string msg);
         void   parse_priceamount_to_map(string symbol,const Value &data);
+        void   parse_tradedetail(string symbol,const Value &data);
 
         map<string,askbidtable> symbol_askbid_table;
         uWS::WebSocket<uWS::CLIENT> *ws;
         bool   wsconn_state;
-        mutex mu;
         condition_variable cv;
+        mutex mu;
         bool sub_state;
+        double ask_amount;
+        double bid_amount;
+        double ask_sum;
+        double bid_sum;
 
         const string restdomain = "https://api.huobi.pro";
         const string wssdomain  = "wss://api.huobi.pro/ws";
 
-        const string apikey = "f86e967d-3119bb92-bb6b5a14-4f538";
-        const string seckey = "ae135856-91dbb36a-cee4149f-8e037";
+        const string apikey = "4b0e2ea1-46d33715-ab5b6a2f-631d5";
+        const string seckey = "fcccdbbb-209371f5-42a5c07c-5edbd";
 
 
         const vector<string> headerlist_get ={"Content-Type:application/x-www-form-urlencoded",

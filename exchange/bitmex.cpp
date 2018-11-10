@@ -12,6 +12,8 @@
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
 
+#include <chrono>
+
 #include "sqlite3.h"
 #include <list>
 
@@ -69,12 +71,28 @@ void   bitmex::subscribe_depth(string symbol){
     this->sendmsg(subststr);
 
     unique_lock<mutex> lock(mu);
-    cout<<"wait the sub complete---"<<endl;
+    cout<<"wait the sub depth complete---"<<endl;
     cv.wait(lock, [this] {return sub_state;});
-    cout<<"sub is complete---"<<endl;
-
+    cout<<"sub depth is complete---"<<endl;
+    this->sub_state = false;
 }
 
+void   bitmex::subscribe_trade(string symbol){
+    string subststr = R"xx({"op": "subscribe", "args": ["trade:XBTUSD"]})xx";  //,"orderBookL2:ETHUSD"
+
+    //string subststr = "{\'event\':\'addChannel\',\'channel\':\'" + symbol + "\'}";
+    struct askbidtable askbid_table;
+    this->symbol_askbid_table[symbol] = askbid_table;
+
+    this->sendmsg(subststr);
+
+    unique_lock<mutex> lock(mu);
+    cout<<"wait the sub trade complete---"<<endl;
+    cv.wait(lock, [this] {return sub_state;});
+    cout<<"sub trade is complete---"<<endl;
+    this->sub_state = false;
+
+}
 
 void bitmex::server_sign(){
     string nonce = gettimestamp();
@@ -171,17 +189,23 @@ void   bitmex::threadfunc_stream(){
         //cout << string(message, length) << endl;
         string msg = string(message, length);
         //cout << msg<< endl;
-        if(msg.empty()){
-            cout<<"empty msg..."<<endl;
-        }
 
         Document d;
         d.Parse(msg.c_str());
         if(d.HasMember("table") && d.HasMember("action")){
-            string actionstr = d["action"].GetString();
-             const Value &data = d["data"];
-             string action = d["action"].GetString();
-             this->parse_priceamount_to_map(action,data);
+            string table  =  d["table"].GetString();
+            string action =  d["action"].GetString();
+            if( table.compare("trade")==0 ){
+                 const Value &data = d["data"];
+                 this->parse_tradedetail("x",data);
+            }else if(table.compare("orderBookL2")==0 ){
+                 string actionstr = d["action"].GetString();
+                 const Value &data = d["data"];
+                 string action = d["action"].GetString();
+                 this->parse_priceamount_to_map(action,data);
+            }
+
+
         }else if(d.HasMember("subscribe") && d.HasMember("success")){
             bool scs =d["success"].GetBool();
             if(scs){
@@ -200,6 +224,24 @@ void   bitmex::threadfunc_stream(){
 
 }
 
+void   bitmex::parse_tradedetail(string symbol,const Value &data)
+{
+      for(SizeType i = 0;i<data.Size();i++){
+           const Value &item = data[i];
+            string  side    = item["side"].GetString();
+            int     amount  = item["size"].GetInt();
+            double  price   = item["price"].GetDouble();
+            if(side.compare("Buy")==0){
+                this->bid_amount += amount;
+                this->bid_sum += amount * price;
+            }else if(side.compare("Sell")==0){
+                this->ask_amount += amount;
+                this->ask_sum += amount * price;
+            }
+      }
+
+}
+
 void   bitmex::parse_priceamount_to_map(string action, const Value &data)
 {
     if(action.compare("update")==0){
@@ -211,7 +253,7 @@ void   bitmex::parse_priceamount_to_map(string action, const Value &data)
                string       side    =  item["side"].GetString();
                double       amount  =  item["size"].GetDouble();
 
-               this->updateprice(symbol+side,id,amount);
+               this->update_price(symbol+side,id,amount);
           }
     }else if(action.compare("insert")==0){
          for(SizeType i = 0;i<data.Size();i++){
@@ -223,7 +265,7 @@ void   bitmex::parse_priceamount_to_map(string action, const Value &data)
                double       amount  =  item["size"].GetDouble();
                double       price   =  item["price"].GetDouble();
 
-               this->insertprice(symbol+side,id,price,amount);
+               this->insert_price(symbol+side,id,price,amount);
           }
     }else if(action.compare("delete")==0){
          for(SizeType i = 0;i<data.Size();i++){
@@ -233,7 +275,7 @@ void   bitmex::parse_priceamount_to_map(string action, const Value &data)
                string       symbol  =  item["symbol"].GetString();
                string       side    =  item["side"].GetString();
 
-               this->deleteprice(symbol+side,id);
+               this->delete_price(symbol+side,id);
           }
     }else if(action.compare("partial")==0){
          for(SizeType i = 0;i<data.Size();i++){
@@ -245,7 +287,7 @@ void   bitmex::parse_priceamount_to_map(string action, const Value &data)
                double       amount  =  item["size"].GetDouble();
                double       price   =  item["price"].GetDouble();
 
-               this->insertprice(symbol+side,id,price,amount);
+               this->insert_price(symbol+side,id,price,amount);
           }
     }
 
@@ -266,8 +308,28 @@ static int callback_select(void *NotUsed,int cnt,char **column_value,char **colu
     return 0; // must return 0
 }
 
+//
+static int callback_select_bidamount(void *bmptr,int cnt,char **column_value,char **column_name)
+{
+    //cout<<"buy ---"<<column_value[0] <<"---"<<column_name[0]<<endl;
+    ((bitmex*)bmptr)->m_bid = stod(column_value[0]);
+    return 0; // must return 0
+}
 
-bool bitmex::insertprice(string tablename,long msgid,double price,double amount)
+static int callback_select_askamount(void *bmptr,int cnt,char **column_value,char **column_name)
+{
+    //cout<<"sell---"<<column_value[0] <<"---"<<column_name[0]<<endl;
+    ((bitmex*)bmptr)->m_ask = stod(column_value[0]);
+    return 0; // must return 0
+}
+
+static int callback_select_minsell(void *NotUsed,int cnt,char **column_value,char **column_name)
+{
+    cout<<column_value[0]  <<endl;//"   " <<column_value[1] <<endl;
+    return 0; // must return 0
+}
+
+bool bitmex::insert_price(string tablename,long msgid,double price,double amount)
 {
     char *zErrMsg = 0;
     string statement = "insert into " + tablename + "(msgid,price,amount)VALUES(" + to_string(msgid) + "," + to_string(price) + "," +to_string(amount) + ")";
@@ -275,10 +337,11 @@ bool bitmex::insertprice(string tablename,long msgid,double price,double amount)
     if(rc!=SQLITE_OK){
         cout<<"not ok"<<endl;
      }
+    sqlite3_free(zErrMsg);
     return true;
 }
 
-bool bitmex::deleteprice(string tablename,long msgid)
+bool bitmex::delete_price(string tablename,long msgid)
 {
     char *zErrMsg = 0;
     string statement = "delete from " + tablename + " where msgid="+to_string(msgid);
@@ -290,7 +353,7 @@ bool bitmex::deleteprice(string tablename,long msgid)
 }
 
 
-bool bitmex::updateprice(string tablename,long msgid,int amount)
+bool bitmex::update_price(string tablename,long msgid,int amount)
 {
      char *zErrMsg = 0;
      string statement = "update " + tablename + " set amount="+to_string(amount) + " where msgid="+to_string(msgid);
@@ -301,14 +364,40 @@ bool bitmex::updateprice(string tablename,long msgid,int amount)
      return true;
 }
 
-
-bool bitmex::selectprice(string tablename)
+//ask --asc    ,bid  --desc
+bool bitmex::select_price(string tablename,string orderby, int limits)
 {
      char *zErrMsg = 0;
-     string statement = "select /*id,msgid,*/price,amount from " + tablename + " order by price asc limit 10";//
+     string statement = "select /*id,msgid,*/price,amount from " + tablename + " order by price " + orderby + " limit " + to_string(limits);
      sqlite3_exec(m_db,statement.c_str(),callback_select,0,&zErrMsg);
      return true;
 }
+
+
+bool bitmex::select_bidamount(string tablename)
+{
+     char *zErrMsg = 0;
+     string statement = "select sum(amount) from (select amount from " + tablename + " order by price desc limit 10) as T";//
+     sqlite3_exec(m_db,statement.c_str(),callback_select_bidamount,this,&zErrMsg);
+     return true;
+}
+
+bool bitmex::select_askamount(string tablename)
+{
+     char *zErrMsg = 0;
+     string statement = "select sum(amount) from (select amount from " + tablename + " order by price asc limit 10) as T";//
+     sqlite3_exec(m_db,statement.c_str(),callback_select_askamount,this,&zErrMsg);
+     return true;
+}
+
+bool bitmex::select_minsellprice(string tablename)
+{
+     char *zErrMsg = 0;
+     string statement = "select price from " + tablename + " order by price asc limit 1";//
+     sqlite3_exec(m_db,statement.c_str(),callback_select_minsell,0,&zErrMsg);
+     return true;
+}
+
 
 void bitmex::clear_table_data(string tablename)
 {
@@ -339,3 +428,5 @@ bool bitmex::init_table()
     }
     return true;
 }
+
+

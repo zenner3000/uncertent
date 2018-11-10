@@ -28,9 +28,11 @@ class bitmex
         void   start_stream();
         void   closestream();
         void   subscribe_depth(string symbol);
+        void   subscribe_trade(string symbol);
         void   cancel_subscribe_depth(string symbol);
         void   sendmsg(string msg);
         void   parse_priceamount_to_map(string action,const Value &data);
+        void   parse_tradedetail(string symbol,const Value &data);
 
         map<string,askbidtable> symbol_askbid_table;
         //uWS::Hub h; // can not be pointer
@@ -40,13 +42,20 @@ class bitmex
         condition_variable cv;
         bool sub_state;
 
+        double ask_amount,bid_amount;
+        double ask_sum,bid_sum;
+
         //sqlite3
         sqlite3 *m_db;
         string m_dbname;
-        bool insertprice(string tablename,long msgid,double price,double amount);
-        bool deleteprice(string tablename,long msgid);
-        bool updateprice(string tablename,long msgid,int amount);
-        bool selectprice(string tablename);
+        double m_ask,m_bid;
+        bool insert_price(string tablename,long msgid,double price,double amount);
+        bool delete_price(string tablename,long msgid);
+        bool update_price(string tablename,long msgid,int amount);
+        bool select_price(string tablename,string orderby, int limits);
+        bool select_minsellprice(string tablename);
+        bool select_askamount(string tablename);
+        bool select_bidamount(string tablename);
         void clear_table_data(string table);
         bool init_table();
 

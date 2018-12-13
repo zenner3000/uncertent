@@ -48,7 +48,7 @@ class bitmex
         //sqlite3
         sqlite3 *m_db;
         string m_dbname;
-        double m_ask,m_bid;
+        double m_ask,m_bid;  //book amount
         bool insert_price(string tablename,long msgid,double price,double amount);
         bool delete_price(string tablename,long msgid);
         bool update_price(string tablename,long msgid,int amount);
@@ -58,6 +58,8 @@ class bitmex
         bool select_bidamount(string tablename);
         void clear_table_data(string table);
         bool init_table();
+        void heartbeat();
+        void startheartbeat();
 
         const string restdomain = "https://api.binance.com";
         const string wssdomain  = "wss://www.bitmex.com/realtime";

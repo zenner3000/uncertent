@@ -1,6 +1,7 @@
 // NOTE: This is not part of the library, this file holds examples and tests
 
 #include "uWS.h"
+#include <string>
 #include <iostream>
 #include <chrono>
 #include <cmath>
@@ -33,8 +34,16 @@
 #include "utils/httprequest.h"
 #include "utils/misc.h"
 #include "utils/trade.h"
+
+
+#include "mail.h"
+
+#include "SmtpMail.h"
+#include "service/zmqservice.h"
+
 using namespace rapidjson;
 using namespace std;
+
 
 void testWSS() {
     uWS::Hub h;
@@ -127,6 +136,148 @@ void testWSS() {
     std::cout << "Falling through testConnections" << std::endl;
 }
 
+
+//
+void sendmailtest()
+{
+    string smtpserver   = "smtp.qq.com";
+    string username     = "595780836@qq.com";
+    string password     = "bcvtbjbknlgsbdeb";
+    string toaddr       = "11019537@qq.com";
+    //sendmail();
+    SmtpMail smtpmail = SmtpMail("utf-8");
+    smtpmail.SetSmtpServer(username,password,smtpserver,"465");
+    smtpmail.SetSendName("holyshit");
+    smtpmail.SetSendMail(username);
+    smtpmail.AddRecvMail(toaddr);
+    smtpmail.SetSubject("Buy signal...Go!!!");
+    smtpmail.SetBodyContent("just doe it~");
+    smtpmail.SendMail();
+}
+
+void bitmextrade(){
+    cout<<"--------BITMEX TRADE MONITOR---------"<<endl;
+    int time=60*1;
+    bitmex * bm = new bitmex();
+    bm->init_table();
+    bm->start_stream();
+    //bm->subscribe_depth("xx");  //sub string not correct
+    bm->subscribe_trade("xx");
+
+    //this_thread::sleep_until(chrono::system_clock::now() + chrono::hours(numeric_limits<int>::max()));
+    cout<<"sleep 5s.."<<endl;
+    chrono::milliseconds dura(5000);
+    this_thread::sleep_for(dura);
+
+    zmq::socket_t socket (zmqservice::context, ZMQ_DEALER);
+    cout<<"connect to inproc tunneltrade..."<<endl;
+    socket.connect("inproc:///tmp/tunneltrade");
+
+    while(true){
+        chrono::milliseconds dura(1000*time);
+        this_thread::sleep_for(dura);
+
+        char data[200]={0};
+        zmq::message_t msg(128);
+        memset(msg.data(),0,128);
+
+
+        cout<<"------TRADE------  "<<getCurrentSystemTime()<<"  ----------------"<<endl;
+        cout<<"ask_amt: "<<bm->ask_amount<<"        bid_amt: "<<bm->bid_amount<<endl;
+        cout<<"ask sum: "<<bm->ask_sum<<"   bid sum: "<<bm->bid_sum<<endl;
+        if( bm->ask_sum==0 ){
+            bm->ask_sum=1;
+        }
+        if( bm->bid_sum==0 ){
+            bm->bid_sum=1;
+        }
+        double askbid = bm->ask_sum/bm->bid_sum;
+        double bidask = bm->bid_sum/bm->ask_sum;
+        cout<<"ask/bid:   "<<askbid<<endl;
+        cout<<"bid/ask:   "<<bidask<<endl;
+
+        int t = unix_timestamp();
+        sprintf(data,"tradedata %f %f %f %f %.2f %.2f %d end",bm->ask_amount,bm->bid_amount,bm->ask_sum,bm->bid_sum,askbid,bidask,t);
+        memcpy(msg.data(),data,strlen(data));
+
+        socket.send(msg);
+
+
+        bm->ask_amount=0;
+        bm->ask_sum=0;
+        bm->bid_amount=0;
+        bm->bid_sum=0;
+
+        if(askbid>3.0){
+            cout<<"####### signal----->sell-----sell/buy ####### "<<askbid<<endl;
+        }
+        if(bidask>3.0){
+            cout<<"####### signal----->buy------buy/sell ####### "<<bidask<<endl;
+        }
+
+    }
+}
+
+void bitmexbook(){
+    cout<<"--------BITMEX BOOK MONITOR---------"<<endl;
+    int time =6;
+
+    bitmex * bm = new bitmex();
+    bm->init_table();
+    bm->start_stream();
+    bm->subscribe_depth("xx");  //sub string not correct
+
+    cout<<"wait 5s..."<<endl;
+    chrono::milliseconds dura(5000);
+    this_thread::sleep_for(dura);
+    //bm->select_askamount("XBTUSDSell");
+
+
+    zmq::socket_t socket (zmqservice::context, ZMQ_DEALER);
+    cout<<"connect to inproc tunnelbook..."<<endl;
+    socket.connect("inproc:///tmp/tunnelbook");
+
+    while(true){
+        chrono::milliseconds dura(1000*time);    //100ms is the best  for bitmex orderbook display . 3000ms is the best for sum amount
+        this_thread::sleep_for(dura);
+
+        char data[200]={0};
+        zmq::message_t msg(128);
+        memset(msg.data(),0,128);
+
+       //bm->select_price("XBTUSDSell","asc",10);
+       //bm->select_price("XBTUSDBuy","desc",10);
+       //bm->select_minsellprice("XBTUSDSell");
+
+        bm->select_askamount("XBTUSDSell");
+        bm->select_bidamount("XBTUSDBuy");
+        double a_b = bm->m_ask/bm->m_bid;
+        double b_a = bm->m_bid/bm->m_ask;
+
+        int t = unix_timestamp();
+        cout<<"------BOOK----------- "<<getCurrentSystemTime()<<" ---------------"<<endl;
+        //cout<<"ask book amt:"<<bm->m_ask<<endl;
+        //cout<<"bid book amt:"<<bm->m_bid<<endl;
+        cout<<"sell/buy----"<<a_b<<endl;
+        cout<<"buy/sell----"<<b_a<<endl;
+
+        sprintf(data,"bookdata %.1f %.1f %.2f %.2f %d end",bm->m_ask,bm->m_bid,a_b,b_a,t);  //must %.1f
+        memcpy(msg.data(),data,strlen(data));
+        socket.send(msg);
+
+
+        if(a_b>6.0){
+            cout<<"####### signal----->sell-----sell/buy ####### "<<a_b<<endl;
+        }
+        if(b_a>6.0){
+            cout<<"####### signal----->buy------buy/sell ####### "<<b_a<<endl;
+        }
+
+    }
+    //bm->selectprice("XBTUSDSell");
+    //bm->selectprice("XBTUSDBuy");
+}
+
 int main(int argc, char *argv[])
 {
     //serveEventSource();
@@ -143,7 +294,27 @@ int main(int argc, char *argv[])
     thread t(testWSS);
     t.join(); */
 
+    //zmqservice::start();
+    //bitmexbook();
+    //bitmextrade();
 
+    bitfinex *bf = new bitfinex();
+    bf->start_stream();
+
+/*
+    zmq::socket_t socket (zmqservice::context, ZMQ_DEALER);
+
+    chrono::milliseconds dura(5*1000);
+    this_thread::sleep_for(dura);
+
+    cout<<"after 5s,connect to myinprctunnel..."<<endl;
+    socket.connect("inproc:///tmp/xxxxx11111");
+
+    cout<<"send msg..."<<endl;
+    zmq::message_t msg(10);
+    memcpy(msg.data(),"xxxxx",10);
+    socket.send(msg);
+    //zmq_send(msg);  */
 
     this_thread::sleep_until(chrono::system_clock::now() + chrono::hours(numeric_limits<int>::max()));
     /*
@@ -182,80 +353,7 @@ int main(int argc, char *argv[])
         hb->bid_sum=0;
     }  */
 
-/*
-    bitmex * bm = new bitmex();
-    bm->init_table();
-    bm->start_stream();
-    //bm->subscribe_depth("xx");  //sub string not correct
-    bm->subscribe_trade("xx");
 
-    //this_thread::sleep_until(chrono::system_clock::now() + chrono::hours(numeric_limits<int>::max()));
-    chrono::milliseconds dura(5000);
-    this_thread::sleep_for(dura);
-
-
-    while(true){
-        chrono::milliseconds dura(1000*60*1);
-        this_thread::sleep_for(dura);
-
-        cout<<"----------------------------"<<endl;
-        cout<<getCurrentSystemTime()<<endl;
-        cout<<"ask amount    "<<"bid amount"<<endl;
-        cout<<bm->ask_amount<<"         "<<bm->bid_amount<<endl;
-        cout<<"ask sum       "<<"bid sum"<<endl;
-        cout<<bm->ask_sum<<"        "<<bm->bid_sum<<endl;
-        cout<<"ask/bid   "<<bm->ask_sum/bm->bid_sum<<endl;
-        cout<<"bid/ask   "<<bm->bid_sum/bm->ask_sum<<endl;
-        bm->ask_amount=0;
-        bm->ask_sum=0;
-        bm->bid_amount=0;
-        bm->bid_sum=0;
-    }*/
-
-
-
-    bitmex * bm = new bitmex();
-    bm->init_table();
-    bm->start_stream();
-    bm->subscribe_depth("xx");  //sub string not correct
-
-    chrono::milliseconds dura(5000);
-    this_thread::sleep_for(dura);
-    //bm->select_askamount("XBTUSDSell");
-
-
-    while(true){
-        // cout<<"sleep 0.5 sec"<<endl;
-        chrono::milliseconds dura(1000*30);    //100ms is the best  for bitmex orderbook display . 3000ms is the best for sum amount
-        this_thread::sleep_for(dura);
-       //bm->select_price("XBTUSDSell","asc",10);
-       //bm->select_price("XBTUSDBuy","desc",10);
-       //bm->select_minsellprice("XBTUSDSell");
-
-
-        bm->select_askamount("XBTUSDSell");
-        bm->select_bidamount("XBTUSDBuy");
-        double a_b = bm->m_ask/bm->m_bid;
-        double b_a = bm->m_bid/bm->m_ask;
-        cout<<"--------------------------------"<<endl;
-        cout<<getCurrentSystemTime()<<endl;
-        cout<<"sell/buy----"<<a_b<<endl;
-        cout<<"buy/sell----"<<b_a<<endl;
-
-        if(a_b>6.0){
-            cout<<"signal----->sell"<<endl;
-            cout<<"####### sell/buy ####### "<<a_b<<endl;
-        }
-        if(b_a>6.0){
-            cout<<"signal----->buy"<<endl;
-            cout<<"####### buy/sell ####### "<<b_a<<endl;
-        }
-
-    }
-    //bm->selectprice("XBTUSDSell");
-    //bm->selectprice("XBTUSDBuy");
-    //thread --- min+max /2   0.2%
-    //
 
     /*
 

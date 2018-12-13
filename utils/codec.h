@@ -1,7 +1,9 @@
 #ifndef CODEC_H_INCLUDED
 #define CODEC_H_INCLUDED
 
-#endif // CODEC_H_INCLUDED
+#include <string>
+
+using namespace std;
 
 string base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len) ;
 string base64_decode(string const& encoded_string) ;
@@ -22,5 +24,5 @@ string escapeURL(const string &URL);
 string deescapeURL(const string &URL) ;
 
 
-
+#endif // CODEC_H_INCLUDED
 

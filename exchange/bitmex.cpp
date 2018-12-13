@@ -34,7 +34,6 @@ bitmex::~bitmex()
 }
 
 
-
 /*h,out
   ws,out
 */
@@ -47,6 +46,8 @@ void   bitmex::start_stream(){
     cout<<"bitmex wait the wss connect complete---"<<endl;
     cv.wait(lock, [this] {return wsconn_state;});
     cout<<"bitmex wss connect is complete---"<<endl;
+
+    startheartbeat();
     //t.join();
     //return t.get_id();
 }
@@ -56,7 +57,20 @@ void   bitmex::closestream(){
     this->ws->terminate();
 }
 
+void bitmex::startheartbeat(){
+    cout<<"start heart beat thread..."<<endl;
+    thread t(&bitmex::heartbeat,this);
+    t.detach();
+}
 
+void bitmex::heartbeat(){
+    while(true){
+        this->sendmsg("ping");
+        chrono::milliseconds dura(60*1000);
+        this_thread::sleep_for(dura);
+    }
+
+}
 
 /*ws,in
 bidtable, out
@@ -182,6 +196,7 @@ void   bitmex::threadfunc_stream(){
 
     h.onDisconnection([](uWS::WebSocket<uWS::CLIENT> *ws, int code, char *message, size_t length) {
         std::cout << "bitmex Client got disconnected with data: " << ws->getUserData() << ", code: " << code << ", message: <" << std::string(message, length) << ">" << std::endl;
+
     });
 
 
@@ -192,7 +207,8 @@ void   bitmex::threadfunc_stream(){
 
         Document d;
         d.Parse(msg.c_str());
-        if(d.HasMember("table") && d.HasMember("action")){
+        if(d.IsObject()){
+            if(d.HasMember("table") && d.HasMember("action")){
             string table  =  d["table"].GetString();
             string action =  d["action"].GetString();
             if( table.compare("trade")==0 ){
@@ -214,6 +230,8 @@ void   bitmex::threadfunc_stream(){
                 cv.notify_one();
             }
         }
+        }
+
 
     });
 

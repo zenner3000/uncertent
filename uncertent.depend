@@ -714,9 +714,10 @@
 
 1532283466 /root/Desktop/uncertent/curlsslout/include/curl/typecheck-gcc.h
 
-1537269712 /root/Desktop/uncertent/utils/codec.h
+1541907813 /root/Desktop/uncertent/utils/codec.h
+	<string>
 
-1541586454 /root/Desktop/uncertent/utils/misc.h
+1542534042 /root/Desktop/uncertent/utils/misc.h
 	<string>
 	<map>
 	"zlib.h"
@@ -833,8 +834,9 @@
 	"common.h"
 	"rapidjson/document.h"
 
-1541728416 source:/root/Desktop/uncertent/main.cpp
+1544467818 source:/root/Desktop/uncertent/main.cpp
 	"uWS.h"
+	<string>
 	<iostream>
 	<chrono>
 	<cmath>
@@ -864,6 +866,9 @@
 	"utils/httprequest.h"
 	"utils/misc.h"
 	"utils/trade.h"
+	"mail.h"
+	"SmtpMail.h"
+	"service/zmqservice.h"
 
 1530917309 /root/Desktop/uncertent/uWebSockets/src/uWS.h
 	"Hub.h"
@@ -1293,7 +1298,7 @@
 	<iostream>
 	<vector>
 
-1541587001 source:/root/Desktop/uncertent/utils/misc.cpp
+1542534050 source:/root/Desktop/uncertent/utils/misc.cpp
 	"misc.h"
 	"time.h"
 	"openssl/sha.h"
@@ -15324,7 +15329,7 @@
 
 1537127812 /root/Desktop/uncertent/exchange/bithumb.h
 
-1541728477 source:/root/Desktop/uncertent/exchange/bitmex.cpp
+1543722838 source:/root/Desktop/uncertent/exchange/bitmex.cpp
 	"bitmex.h"
 	<map>
 	"../utils/codec.h"
@@ -15341,7 +15346,7 @@
 	"sqlite3.h"
 	<list>
 
-1541634814 /root/Desktop/uncertent/exchange/bitmex.h
+1543678918 /root/Desktop/uncertent/exchange/bitmex.h
 	"uWS.h"
 	"exchange.h"
 	<vector>
@@ -15463,4 +15468,164 @@
 
 1537669464 /root/Desktop/uncertent/sqliteout/include/sqlite3.h
 	<stdarg.h>
+
+1541835213 /root/Desktop/uncertent/zeromqout/include/zmq.hpp
+	<zmq.h>
+	<cassert>
+	<cstring>
+	<algorithm>
+	<exception>
+	<iomanip>
+	<iterator>
+	<sstream>
+	<string>
+	<vector>
+	<chrono>
+	<tuple>
+	<functional>
+	<unordered_map>
+	<memory>
+
+1541834640 /root/Desktop/uncertent/zeromqout/include/zmq.h
+	<errno.h>
+	<stddef.h>
+	<stdio.h>
+	<winsock2.h>
+	<inttypes.h>
+	<stdint.h>
+	<poll.h>
+
+1541894543 /root/Desktop/uncertent/utils/mail.h
+	<vector>
+
+1541904818 source:/root/Desktop/uncertent/utils/base64.cpp
+	"base64.h"
+	<iostream>
+
+1541903734 /root/Desktop/uncertent/utils/base64.h
+	<string>
+
+1541904874 source:/root/Desktop/uncertent/utils/mail.cpp
+	<stdio.h>
+	<string.h>
+	<curl/curl.h>
+	<random>
+
+1541921885 /root/Desktop/uncertent/utils/SmtpMail.h
+	<string>
+	<vector>
+	<string>
+
+1541922027 source:/root/Desktop/uncertent/utils/SmtpMail.cpp
+	"SmtpMail.h"
+	"SmtpMail.h"
+	<curl/curl.h>
+	<iostream>
+	<sstream>
+	<fstream>
+	<string.h>
+	"codec.h"
+
+1544468095 source:/root/Desktop/uncertent/service/zmqservice.cpp
+	"zmqservice.h"
+	<zmq.hpp>
+	<thread>
+	<chrono>
+	<iostream>
+
+1542297743 /root/Desktop/uncertent/service/zmqservice.h
+	<zmq.hpp>
+	<string>
+
+1544679678 source:/root/Desktop/uncertent/exchange/bibox.cpp
+	"bibox.h"
+	"../utils/httprequest.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+	<iostream>
+	<thread>
+	<mutex>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+
+1544679501 /root/Desktop/uncertent/exchange/bibox.h
+	"uWS.h"
+	"exchange.h"
+	<vector>
+	<map>
+	<mutex>
+	<condition_variable>
+	"common.h"
+	"rapidjson/document.h"
+
+1544679901 source:/root/Desktop/uncertent/exchange/bitstamp.cpp
+	"bitstamp.h"
+	"../utils/httprequest.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+	<iostream>
+	<thread>
+	<mutex>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+
+1544680282 /root/Desktop/uncertent/exchange/bitstamp.h
+	"uWS.h"
+	"exchange.h"
+	<vector>
+	<map>
+	<mutex>
+	<condition_variable>
+	"common.h"
+	"rapidjson/document.h"
+
+1544679874 source:/root/Desktop/uncertent/exchange/coinbase.cpp
+	"coinbase.h"
+	"../utils/httprequest.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+	<iostream>
+	<thread>
+	<mutex>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+
+1544680130 /root/Desktop/uncertent/exchange/coinbase.h
+	"uWS.h"
+	"exchange.h"
+	<vector>
+	<map>
+	<mutex>
+	<condition_variable>
+	"common.h"
+	"rapidjson/document.h"
+
+1544679925 source:/root/Desktop/uncertent/exchange/cryptofacilities.cpp
+	"cryptofacilities.h"
+	"../utils/httprequest.h"
+	<map>
+	"../utils/codec.h"
+	"../utils/misc.h"
+	<iostream>
+	<thread>
+	<mutex>
+	"rapidjson/document.h"
+	"rapidjson/writer.h"
+	"rapidjson/stringbuffer.h"
+
+1544680223 /root/Desktop/uncertent/exchange/cryptofacilities.h
+	"uWS.h"
+	"exchange.h"
+	<vector>
+	<map>
+	<mutex>
+	<condition_variable>
+	"common.h"
+	"rapidjson/document.h"
 

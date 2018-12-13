@@ -18,13 +18,14 @@
 					<Add directory="uWebSockets/src" />
 					<Add directory="openssl/include" />
 					<Add directory="zlibout/include" />
-					<Add directory="../boost1.68out/include" />
 					<Add directory="rapidjson/include" />
 					<Add directory="curlsslout/include" />
 					<Add directory="include" />
 					<Add directory="exchange" />
 					<Add directory="utils" />
 					<Add directory="sqliteout/include" />
+					<Add directory="zeromqout/include" />
+					<Add directory="service" />
 				</Compiler>
 				<Linker>
 					<Add library="ssl" />
@@ -34,12 +35,13 @@
 					<Add library="pthread" />
 					<Add library="curl" />
 					<Add library="sqlite3" />
+					<Add library="zmq" />
 					<Add directory="zlibout/lib" />
-					<Add directory="../boost1.68out/lib" />
 					<Add directory="openssl/lib" />
 					<Add directory="uWebSockets" />
 					<Add directory="curlsslout/lib" />
 					<Add directory="sqliteout/lib" />
+					<Add directory="zeromqout/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -58,6 +60,7 @@
 					<Add directory="include" />
 					<Add directory="exchange" />
 					<Add directory="utils" />
+					<Add directory="service" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -78,6 +81,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="exchange/bibox.cpp" />
+		<Unit filename="exchange/bibox.h" />
 		<Unit filename="exchange/binance.cpp" />
 		<Unit filename="exchange/binance.h" />
 		<Unit filename="exchange/bitfinex.cpp" />
@@ -88,8 +93,14 @@
 		<Unit filename="exchange/bithumb.h" />
 		<Unit filename="exchange/bitmex.cpp" />
 		<Unit filename="exchange/bitmex.h" />
+		<Unit filename="exchange/bitstamp.cpp" />
+		<Unit filename="exchange/bitstamp.h" />
 		<Unit filename="exchange/bittrex.cpp" />
 		<Unit filename="exchange/bittrex.h" />
+		<Unit filename="exchange/coinbase.cpp" />
+		<Unit filename="exchange/coinbase.h" />
+		<Unit filename="exchange/cryptofacilities.cpp" />
+		<Unit filename="exchange/cryptofacilities.h" />
 		<Unit filename="exchange/deribit.cpp" />
 		<Unit filename="exchange/deribit.h" />
 		<Unit filename="exchange/exchange.cpp" />
@@ -113,6 +124,8 @@
 		<Unit filename="include/common.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="main/test.h" />
+		<Unit filename="service/zmqservice.cpp" />
+		<Unit filename="service/zmqservice.h" />
 		<Unit filename="uWebSockets/src/Asio.h" />
 		<Unit filename="uWebSockets/src/Backend.h" />
 		<Unit filename="uWebSockets/src/Epoll.cpp" />
@@ -138,10 +151,14 @@
 		<Unit filename="uWebSockets/src/WebSocket.h" />
 		<Unit filename="uWebSockets/src/WebSocketProtocol.h" />
 		<Unit filename="uWebSockets/src/uWS.h" />
+		<Unit filename="utils/SmtpMail.cpp" />
+		<Unit filename="utils/SmtpMail.h" />
 		<Unit filename="utils/codec.cpp" />
 		<Unit filename="utils/codec.h" />
 		<Unit filename="utils/httprequest.cpp" />
 		<Unit filename="utils/httprequest.h" />
+		<Unit filename="utils/mail.cpp" />
+		<Unit filename="utils/mail.h" />
 		<Unit filename="utils/misc.cpp" />
 		<Unit filename="utils/misc.h" />
 		<Unit filename="utils/trade.cpp" />

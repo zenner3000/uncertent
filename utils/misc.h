@@ -28,5 +28,5 @@ bool gzip_uncompress(const string& compressedData, string& data);
 int UncompressData( const char* abSrc, int nLenSrc, char* abDst, int nLenDst );
 int deflatetest(char * src, int srclen, string& data);
 bool inflate_uncompress(const string& compressedData, string& data);
-
+long int unix_timestamp();
 #endif // MISC_H_INCLUDED

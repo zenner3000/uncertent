@@ -300,7 +300,27 @@ int main(int argc, char *argv[])
 
     bitfinex *bf = new bitfinex();
     bf->start_stream();
+    bf->subscribe_depth("BTC_BTS");
+    //bf->subscribe_trade("");
 
+    this_thread::sleep_until(chrono::system_clock::now() + chrono::hours(numeric_limits<int>::max()));
+    while(true){
+        // cout<<"sleep 60 sec"<<endl;
+        cout<<"-----60s-----"<<endl;
+        chrono::milliseconds dura(1000*60);
+        this_thread::sleep_for(dura);
+        cout<<getCurrentSystemTime()<<endl;
+        cout<<"ask amount    "<<"bid amount"<<endl;
+        cout<<bf->ask_amount<<"         "<<bf->bid_amount<<endl;
+        cout<<"ask sum       "<<"bid sum"<<endl;
+        cout<<bf->ask_sum<<"        "<<bf->bid_sum<<endl;
+        cout<<"ask/bid   "<<bf->ask_sum/bf->bid_sum<<endl;
+        cout<<"bid/ask   "<<bf->bid_sum/bf->ask_sum<<endl;
+        bf->ask_amount=0;
+        bf->ask_sum=0;
+        bf->bid_amount=0;
+        bf->bid_sum=0;
+    }
 /*
     zmq::socket_t socket (zmqservice::context, ZMQ_DEALER);
 

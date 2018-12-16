@@ -26,6 +26,7 @@ class bitfinex
         void   start_stream();
         void   closestream();
         void   subscribe_depth(string symbol);
+        void   subscribe_trade(string symbol);
         void   cancel_subscribe_depth(string symbol);
         void   sendmsg(string msg);
         void   parse_priceamount_to_map(string symbol,const Value &data);
@@ -37,6 +38,11 @@ class bitfinex
         mutex mu;
         condition_variable cv;
         bool sub_state;
+
+
+        double ask_amount,bid_amount;
+        double ask_sum,bid_sum;
+        int btc_chanid;
 
         const string restdomain = "https://www.okex.com/api/v1";
         const string wssdomainv2 = "wss://api.bitfinex.com/ws/2";

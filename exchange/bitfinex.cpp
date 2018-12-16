@@ -8,6 +8,7 @@
 #include <string>
 #include <thread>
 #include <iostream>
+#include <cmath>
 #include <mutex>
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
@@ -54,20 +55,37 @@ void   bitfinex::closestream(){
 bidtable, out
 asktable, out*/
 void   bitfinex::subscribe_depth(string symbol){
-    string subststr = R"xx({ "command": "subscribe", "channel": "BTC_BTS" })xx";
-
+    string subststr = R"xx({ "event": "subscribe", "channel": "book", "symbol":"tBTCUSD" })xx";
+    //string   ss = R"xx({"event":"ping"})xx";
     //string subststr = "{\'event\':\'addChannel\',\'channel\':\'" + symbol + "\'}";
     struct askbidtable askbid_table;
     this->symbol_askbid_table[symbol] = askbid_table;
 
     this->sendmsg(subststr);
 
-    unique_lock<mutex> lock(mu);
-    cout<<"wait the sub complete---"<<endl;
-    cv.wait(lock, [this] {return sub_state;});
-    cout<<"sub is complete---"<<endl;
+    //unique_lock<mutex> lock(mu);
+    //cout<<"wait the sub complete---"<<endl;
+    //cv.wait(lock, [this] {return sub_state;});
+    //cout<<"sub is complete---"<<endl;
 
 }
+
+void   bitfinex::subscribe_trade(string symbol){
+    string subststr = R"xx({ "event": "subscribe", "channel": "trades", "symbol":"tBTCUSD" })xx";
+    //string   ss = R"xx({"event":"ping"})xx";
+    //string subststr = "{\'event\':\'addChannel\',\'channel\':\'" + symbol + "\'}";
+    struct askbidtable askbid_table;
+    this->symbol_askbid_table[symbol] = askbid_table;
+
+    this->sendmsg(subststr);
+
+    //unique_lock<mutex> lock(mu);
+    //cout<<"wait the sub complete---"<<endl;
+    //cv.wait(lock, [this] {return sub_state;});
+    //cout<<"sub is complete---"<<endl;
+
+}
+
 
 
 void bitfinex::server_sign(){
@@ -167,6 +185,48 @@ void   bitfinex::threadfunc_stream(){
         cout << msg<< endl;
         if(msg.empty()){
             cout<<"empty msg..."<<endl;
+        }
+        Document d;
+        d.Parse(msg.c_str());
+        if(d.IsObject()){
+            if(d.HasMember("event") && d.HasMember("channel")){
+                string channel = d["channel"].GetString();
+                if(channel.compare("book")==0){
+                    string symbol = d["symbol"].GetString();
+                    if(symbol.compare("tBTCUSD")==0){
+
+                    }
+                }else if(channel.compare("trades")==0){
+                    string symbol = d["symbol"].GetString();
+                    if(symbol.compare("tBTCUSD")==0){
+                        btc_chanid = d["chanId"].GetInt();
+                    }
+                }
+
+            }
+        }else if(d.IsArray()){
+            SizeType st = d.Capacity();
+            if(st==3){
+                int chanid = d[0].GetInt();
+                if(chanid == btc_chanid){
+                    if(d[2].IsArray()){
+                        //cout<<d[2][2].GetDouble()<<"    "<<d[2][3].GetDouble()<<endl;
+                        string c = d[1].GetString();
+                        if(c.compare("te")==0){
+                            double amt   = d[2][2].GetDouble();
+                            double price = d[2][3].GetDouble();
+                            if(amt>0){
+                                bid_amount += amt;
+                                bid_sum += bid_amount * price;
+                            }else if(amt<0){
+                                ask_amount += fabs(amt);
+                                ask_sum += ask_amount * price;
+                            }
+                        }
+                    }
+                }
+            }
+
         }
 //https://github.com/Tencent/rapidjson/blob/master/example/tutorial/tutorial.cpp
 

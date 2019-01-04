@@ -39,10 +39,15 @@ class bitfinex
         condition_variable cv;
         bool sub_state;
 
-
         double ask_amount,bid_amount;
         double ask_sum,bid_sum;
-        int btc_chanid;
+
+        double book_asksum;
+        double book_bidsum;
+
+
+        int trade_btc_chanid;
+        int book_btc_chanid;
 
         const string restdomain = "https://www.okex.com/api/v1";
         const string wssdomainv2 = "wss://api.bitfinex.com/ws/2";

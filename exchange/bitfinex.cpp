@@ -63,27 +63,27 @@ void   bitfinex::subscribe_depth(string symbol){
 
     this->sendmsg(subststr);
 
-    //unique_lock<mutex> lock(mu);
-    //cout<<"wait the sub complete---"<<endl;
-    //cv.wait(lock, [this] {return sub_state;});
-    //cout<<"sub is complete---"<<endl;
-
+    unique_lock<mutex> lock(mu);
+    cout<<"wait the sub complete---"<<endl;
+    cv.wait(lock, [this] {return sub_state;});
+    cout<<"sub is complete---"<<endl;
+    this->sub_state = false;
 }
 
 void   bitfinex::subscribe_trade(string symbol){
     string subststr = R"xx({ "event": "subscribe", "channel": "trades", "symbol":"tBTCUSD" })xx";
     //string   ss = R"xx({"event":"ping"})xx";
     //string subststr = "{\'event\':\'addChannel\',\'channel\':\'" + symbol + "\'}";
-    struct askbidtable askbid_table;
-    this->symbol_askbid_table[symbol] = askbid_table;
+    //struct askbidtable askbid_table;
+    //this->symbol_askbid_table[symbol] = askbid_table;
 
     this->sendmsg(subststr);
 
-    //unique_lock<mutex> lock(mu);
-    //cout<<"wait the sub complete---"<<endl;
-    //cv.wait(lock, [this] {return sub_state;});
-    //cout<<"sub is complete---"<<endl;
-
+    unique_lock<mutex> lock(mu);
+    cout<<"wait the sub complete---"<<endl;
+    cv.wait(lock, [this] {return sub_state;});
+    cout<<"sub is complete---"<<endl;
+    this->sub_state = false;
 }
 
 
@@ -182,7 +182,7 @@ void   bitfinex::threadfunc_stream(){
     h.onMessage([this](uWS::WebSocket<uWS::CLIENT> *ws, char *message, size_t length, uWS::OpCode opCode) {
         //cout << string(message, length) << endl;
         string msg = string(message, length);
-        cout << msg<< endl;
+        //cout << msg<< endl;
         if(msg.empty()){
             cout<<"empty msg..."<<endl;
         }
@@ -194,22 +194,28 @@ void   bitfinex::threadfunc_stream(){
                 if(channel.compare("book")==0){
                     string symbol = d["symbol"].GetString();
                     if(symbol.compare("tBTCUSD")==0){
-
+                        book_btc_chanid = d["chanId"].GetInt();
+                        cout<<"book subscribtion success..."<<endl;
+                        this->sub_state = true;
+                        cv.notify_one();
                     }
                 }else if(channel.compare("trades")==0){
                     string symbol = d["symbol"].GetString();
                     if(symbol.compare("tBTCUSD")==0){
-                        btc_chanid = d["chanId"].GetInt();
+                        trade_btc_chanid = d["chanId"].GetInt();
+                        cout<<"trade subscribtion success..."<<endl;
+                        this->sub_state = true;
+                        cv.notify_one();
                     }
                 }
 
             }
         }else if(d.IsArray()){
-            SizeType st = d.Capacity();
-            if(st==3){
+//            SizeType st = d.Capacity();
+
                 int chanid = d[0].GetInt();
-                if(chanid == btc_chanid){
-                    if(d[2].IsArray()){
+                if(chanid == trade_btc_chanid){
+                    if(d.Capacity()==3 && d[2].IsArray() && d[2].Capacity()==4 ){
                         //cout<<d[2][2].GetDouble()<<"    "<<d[2][3].GetDouble()<<endl;
                         string c = d[1].GetString();
                         if(c.compare("te")==0){
@@ -223,9 +229,67 @@ void   bitfinex::threadfunc_stream(){
                                 ask_sum += ask_amount * price;
                             }
                         }
+                    }else if(d[1].IsArray() && d[1].Capacity()>1 ){
+                        const Value &items = d[1];
+                        for(SizeType i = 0;i<items.Size();i++){
+                            const Value &item = items[i];
+                            double amt   = item[2].GetDouble();
+                            double price = item[3].GetDouble();
+                            if(amt>0){
+                                bid_amount += amt;
+                                bid_sum += bid_amount * price;
+                            }else if(amt<0){
+                                ask_amount += fabs(amt);
+                                ask_sum += ask_amount * price;
+                            }
+                        }
+                    }
+                }else if(chanid == book_btc_chanid){
+
+                    if(d[1].IsArray() && d[1].Capacity()==3 ){ //
+                        //cout<<d[2][2].GetDouble()<<"    "<<d[2][3].GetDouble()<<endl;
+                        double  price   = d[1][0].GetDouble();
+                        int     cnt     = d[1][1].GetInt();
+                        double  amt     = d[1][2].GetDouble();
+                        if(cnt>0){
+                            if(amt>0){
+                                //cout<<price <<"  "<< cnt <<"  "<< amt<<endl;
+                                this->symbol_askbid_table["tBTCUSD"].bid_table[price] = amt;
+                            }else if(amt<0){
+                                //cout<<price <<"  "<< cnt <<"  "<< amt<<endl;
+                                this->symbol_askbid_table["tBTCUSD"].ask_table[price] = amt;
+                            }
+                        }else if(cnt==0){
+                            if(amt==1){
+                                this->symbol_askbid_table["tBTCUSD"].bid_table.erase(price);
+                            }else if(amt==-1){
+                                this->symbol_askbid_table["tBTCUSD"].ask_table.erase(price);
+                            }
+                        }
+
+                    }else if(d[1].IsArray() && d[1].Capacity()>3 ){
+                        const Value &items = d[1];
+                        for(SizeType i = 0;i<items.Size();i++){
+                            const Value &item = items[i];
+                            double amt   = item[2].GetDouble();
+                            int    cnt   = item[1].GetInt();
+                            double price = item[0].GetDouble();
+                        if(cnt>0){
+                                if(amt>0){
+                                    this->symbol_askbid_table["tBTCUSD"].bid_table[price] = amt;
+                                }else if(amt<0){
+                                    this->symbol_askbid_table["tBTCUSD"].ask_table[price] = amt;
+                                }
+                            }else if(cnt==0){
+                                if(amt==1){
+                                    this->symbol_askbid_table["tBTCUSD"].bid_table.erase(price);
+                                }else if(amt==-1){
+                                    this->symbol_askbid_table["tBTCUSD"].ask_table.erase(price);
+                                }
+                            }
+                        }
                     }
                 }
-            }
 
         }
 //https://github.com/Tencent/rapidjson/blob/master/example/tutorial/tutorial.cpp

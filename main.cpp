@@ -157,7 +157,7 @@ void sendmailtest()
 
 void bitmextrade(){
     cout<<"--------BITMEX TRADE MONITOR---------"<<endl;
-    int time=60*1;
+    int time=1000*60*5;
     bitmex * bm = new bitmex();
     bm->init_table();
     bm->start_stream();
@@ -174,7 +174,7 @@ void bitmextrade(){
     socket.connect("inproc:///tmp/tunneltrade");
 
     while(true){
-        chrono::milliseconds dura(1000*time);
+        chrono::milliseconds dura(time);
         this_thread::sleep_for(dura);
 
         char data[200]={0};
@@ -182,7 +182,7 @@ void bitmextrade(){
         memset(msg.data(),0,128);
 
 
-        cout<<"------TRADE------  "<<getCurrentSystemTime()<<"  ----------------"<<endl;
+        cout<<"-----Bitmex TRADE------  "<<getCurrentSystemTime()<<"  ----------------"<<endl;
         cout<<"ask_amt: "<<bm->ask_amount<<"        bid_amt: "<<bm->bid_amount<<endl;
         cout<<"ask sum: "<<bm->ask_sum<<"   bid sum: "<<bm->bid_sum<<endl;
         if( bm->ask_sum==0 ){
@@ -220,7 +220,7 @@ void bitmextrade(){
 
 void bitmexbook(){
     cout<<"--------BITMEX BOOK MONITOR---------"<<endl;
-    int time =6;
+    int time =1000;
 
     bitmex * bm = new bitmex();
     bm->init_table();
@@ -238,7 +238,7 @@ void bitmexbook(){
     socket.connect("inproc:///tmp/tunnelbook");
 
     while(true){
-        chrono::milliseconds dura(1000*time);    //100ms is the best  for bitmex orderbook display . 3000ms is the best for sum amount
+        chrono::milliseconds dura(time);    //100ms is the best  for bitmex orderbook display . 3000ms is the best for sum amount
         this_thread::sleep_for(dura);
 
         char data[200]={0};
@@ -255,7 +255,7 @@ void bitmexbook(){
         double b_a = bm->m_bid/bm->m_ask;
 
         int t = unix_timestamp();
-        cout<<"------BOOK----------- "<<getCurrentSystemTime()<<" ---------------"<<endl;
+        cout<<"------Bitmex BOOK----------- "<<getCurrentSystemTime()<<" ---------------"<<endl;
         //cout<<"ask book amt:"<<bm->m_ask<<endl;
         //cout<<"bid book amt:"<<bm->m_bid<<endl;
         cout<<"sell/buy----"<<a_b<<endl;
@@ -278,6 +278,75 @@ void bitmexbook(){
     //bm->selectprice("XBTUSDBuy");
 }
 
+
+void bitfinexbook(){
+    bitfinex *bf = new bitfinex();
+    bf->start_stream();
+    bf->subscribe_depth("tBTCUSD");
+
+   // this_thread::sleep_until(chrono::system_clock::now() + chrono::hours(numeric_limits<int>::max()));
+    while(true){
+        // cout<<"sleep 60 sec"<<endl;
+        chrono::milliseconds dura(1000);
+        this_thread::sleep_for(dura);
+
+        cout<<"-----Bitfinex Book------ "<<getCurrentSystemTime()<<" -----------"<<endl;
+        int cnt_ask=0;
+        map<double,double>::reverse_iterator  rit_ask;
+        for(rit_ask=bf->symbol_askbid_table["tBTCUSD"].ask_table.rbegin();rit_ask!=bf->symbol_askbid_table["tBTCUSD"].ask_table.rend();rit_ask++){
+          //  cout<<"ask-----"<<rit->first<<"     "<<rit->second<<endl;
+            bf->book_asksum += rit_ask->first * rit_ask->second;
+            if(cnt_ask>15){
+                break;
+            }
+            cnt_ask++;
+        }
+
+        int cnt_bid = 0;
+        map<double,double>::reverse_iterator  rit_bid;
+        for(rit_bid=bf->symbol_askbid_table["tBTCUSD"].bid_table.rbegin();rit_bid!=bf->symbol_askbid_table["tBTCUSD"].bid_table.rend();rit_bid++){
+          //  cout<<"bid-----"<<rit->first<<"     "<<rit->second<<endl;
+            bf->book_bidsum += rit_bid->first * rit_bid->second;
+            if(cnt_bid>15){
+                break;
+            }
+            cnt_bid++;
+        }
+
+        double askbid = bf->book_asksum/bf->book_bidsum;
+        double bidask = bf->book_bidsum/bf->book_asksum;
+        cout<<"askbid --- "<<abs(askbid)<<endl;
+        cout<<"bidask --- "<<abs(bidask)<<endl;
+        bf->book_asksum = 0;
+        bf->book_bidsum = 0;
+    }
+}
+
+void bitfinextrade(){
+
+    bitfinex *bf = new bitfinex();
+    bf->start_stream();
+    bf->subscribe_trade("tBTCUSD");
+
+    while(true){
+        // cout<<"sleep 60 sec"<<endl;
+        chrono::milliseconds dura(1000*60*5);
+        this_thread::sleep_for(dura);
+
+        cout<<"-----Bitfinex Trade------ "<<getCurrentSystemTime()<<" -----------"<<endl;
+    /*    cout<<"ask amount    "<<"bid amount"<<endl;
+        cout<<bf->ask_amount<<"         "<<bf->bid_amount<<endl;
+        cout<<"ask sum       "<<"bid sum"<<endl;
+        cout<<bf->ask_sum<<"        "<<bf->bid_sum<<endl;*/
+        cout<<"ask/bid   "<<bf->ask_sum/bf->bid_sum<<endl;
+        cout<<"bid/ask   "<<bf->bid_sum/bf->ask_sum<<endl;
+        bf->ask_amount=0;
+        bf->ask_sum=0;
+        bf->bid_amount=0;
+        bf->bid_sum=0;
+    }
+}
+
 int main(int argc, char *argv[])
 {
     //serveEventSource();
@@ -295,31 +364,35 @@ int main(int argc, char *argv[])
     t.join(); */
 
     //zmqservice::start();
-    //bitmexbook();
+    bitmexbook();
     //bitmextrade();
-
-    bitfinex *bf = new bitfinex();
-    bf->start_stream();
-    bf->subscribe_depth("BTC_BTS");
-    //bf->subscribe_trade("");
+    //bitfinexbook();
+    //bitfinextrade();
 
     this_thread::sleep_until(chrono::system_clock::now() + chrono::hours(numeric_limits<int>::max()));
     while(true){
         // cout<<"sleep 60 sec"<<endl;
-        cout<<"-----60s-----"<<endl;
-        chrono::milliseconds dura(1000*60);
+        cout<<"-----1s-----"<<endl;
+        chrono::milliseconds dura(1000);
         this_thread::sleep_for(dura);
-        cout<<getCurrentSystemTime()<<endl;
-        cout<<"ask amount    "<<"bid amount"<<endl;
-        cout<<bf->ask_amount<<"         "<<bf->bid_amount<<endl;
-        cout<<"ask sum       "<<"bid sum"<<endl;
-        cout<<bf->ask_sum<<"        "<<bf->bid_sum<<endl;
-        cout<<"ask/bid   "<<bf->ask_sum/bf->bid_sum<<endl;
-        cout<<"bid/ask   "<<bf->bid_sum/bf->ask_sum<<endl;
-        bf->ask_amount=0;
-        bf->ask_sum=0;
-        bf->bid_amount=0;
-        bf->bid_sum=0;
+
+        /*
+        //print the book table
+        map<double,double>::reverse_iterator  rit;
+        cout<<bf->symbol_askbid_table["tBTCUSD"].ask_table.size()<<endl;
+        for(rit=bf->symbol_askbid_table["tBTCUSD"].ask_table.rbegin();rit!=bf->symbol_askbid_table["tBTCUSD"].ask_table.rend();rit++){
+            cout<<"ask-----"<<rit->first<<"     "<<rit->second<<endl;
+        }
+
+        int cnt = 0;
+        map<double,double>::reverse_iterator  rit;
+        for(rit=bf->symbol_askbid_table["tBTCUSD"].bid_table.rbegin();rit!=bf->symbol_askbid_table["tBTCUSD"].bid_table.rend();rit++){
+            cout<<"bid-----"<<rit->first<<"     "<<rit->second<<endl;
+            if(cnt>10){
+                break;
+            }
+            cnt++;
+        } */
     }
 /*
     zmq::socket_t socket (zmqservice::context, ZMQ_DEALER);

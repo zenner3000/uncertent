@@ -834,7 +834,7 @@
 	"common.h"
 	"rapidjson/document.h"
 
-1544892598 source:/root/Desktop/uncertent/main.cpp
+1546420607 source:/root/Desktop/uncertent/main.cpp
 	"uWS.h"
 	<string>
 	<iostream>
@@ -15295,7 +15295,7 @@
 1535970211 /root/Desktop/boost1.68out/include/boost/iostreams/putback.hpp
 	<boost/iostreams/read.hpp>
 
-1544879082 source:/root/Desktop/uncertent/exchange/bitfinex.cpp
+1546417532 source:/root/Desktop/uncertent/exchange/bitfinex.cpp
 	"bitfinex.h"
 	<map>
 	"../utils/codec.h"
@@ -15304,12 +15304,13 @@
 	<string>
 	<thread>
 	<iostream>
+	<cmath>
 	<mutex>
 	"rapidjson/document.h"
 	"rapidjson/writer.h"
 	"rapidjson/stringbuffer.h"
 
-1544718339 /root/Desktop/uncertent/exchange/bitfinex.h
+1546281395 /root/Desktop/uncertent/exchange/bitfinex.h
 	"uWS.h"
 	"exchange.h"
 	<vector>
@@ -15329,7 +15330,7 @@
 
 1537127812 /root/Desktop/uncertent/exchange/bithumb.h
 
-1543722838 source:/root/Desktop/uncertent/exchange/bitmex.cpp
+1546369302 source:/root/Desktop/uncertent/exchange/bitmex.cpp
 	"bitmex.h"
 	<map>
 	"../utils/codec.h"

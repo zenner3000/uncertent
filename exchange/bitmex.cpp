@@ -95,8 +95,8 @@ void   bitmex::subscribe_trade(string symbol){
     string subststr = R"xx({"op": "subscribe", "args": ["trade:XBTUSD"]})xx";  //,"orderBookL2:ETHUSD"
 
     //string subststr = "{\'event\':\'addChannel\',\'channel\':\'" + symbol + "\'}";
-    struct askbidtable askbid_table;
-    this->symbol_askbid_table[symbol] = askbid_table;
+    //struct askbidtable askbid_table;
+    //this->symbol_askbid_table[symbol] = askbid_table;
 
     this->sendmsg(subststr);
 
@@ -395,7 +395,7 @@ bool bitmex::select_price(string tablename,string orderby, int limits)
 bool bitmex::select_bidamount(string tablename)
 {
      char *zErrMsg = 0;
-     string statement = "select sum(amount) from (select amount from " + tablename + " order by price desc limit 10) as T";//
+     string statement = "select sum(price*(amount/100)) from (select price,amount from " + tablename + " order by price desc limit 10) as T";//
      sqlite3_exec(m_db,statement.c_str(),callback_select_bidamount,this,&zErrMsg);
      return true;
 }
@@ -403,7 +403,7 @@ bool bitmex::select_bidamount(string tablename)
 bool bitmex::select_askamount(string tablename)
 {
      char *zErrMsg = 0;
-     string statement = "select sum(amount) from (select amount from " + tablename + " order by price asc limit 10) as T";//
+     string statement = "select sum(price*(amount/100)) from (select price,amount from " + tablename + " order by price asc limit 10) as T";//
      sqlite3_exec(m_db,statement.c_str(),callback_select_askamount,this,&zErrMsg);
      return true;
 }
